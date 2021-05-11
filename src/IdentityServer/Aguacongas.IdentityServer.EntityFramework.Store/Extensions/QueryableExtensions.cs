@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Store;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Store;
 using Community.OData.Linq;
 using Microsoft.OData.Edm;
 using System.Linq;
@@ -16,6 +18,7 @@ namespace Microsoft.EntityFrameworkCore
                 {
                     query = query.Include(path.Trim().Replace('/', '.'));
                 }
+                query = query.AsSingleQuery();
             }
 
             return query;
@@ -39,12 +42,19 @@ namespace Microsoft.EntityFrameworkCore
             return odataQuery;
         }
 
-        public static IQueryable<T> GetPage<T>(this ODataQuery<T> odataQuery, PageRequest request) where T : class
-        {            
-            var page = odataQuery.Skip(request.Skip ?? 0)
-                .Take(request.Take.Value);
+        public static IQueryable<T> GetPage<T>(this IQueryable<T> query, PageRequest request) where T : class
+        {
+            if (request.Skip.HasValue)
+            {
+                query = query.Skip(request.Skip.Value);
+            }
 
-            return page;
+            if (request.Take.HasValue)
+            {
+                query = query.Take(request.Take.Value);
+            }
+                
+            return query;
         }
     }
 }

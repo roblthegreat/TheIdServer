@@ -1,4 +1,5 @@
 ﻿@inject Notifier _notifier;
+@inject IStringLocalizerAsync<MainLayout> Localizer
 
 @inherits LayoutComponentBase
 
@@ -8,14 +9,12 @@
 
 <div class="main bg-light mb-2">
     <div class="top-row px-4 auth">
+        <EntityInfo />
         <LoginDisplay />
     </div>
 
     <div class="content px-4">
         @Body
     </div>
-</div>
-<div class="fixed-bottom bg-light">
-    <a class="px-3" href="https://github.com/aguacongas/TheIdServer/blob/master/README.md" target="_blank">About</a>
 </div>
 <Toaster />

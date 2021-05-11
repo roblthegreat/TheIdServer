@@ -6,7 +6,7 @@ This project is the [Blazor Web Assembly](https//blazor.net) application to mana
 ### From Docker
 
 The application is embedded in the [server's Linux image](../Aguacongas.TheIdServer/README.md#from-docker).  
-If you prefer, you can install the [standalone application'sLinux image](https://hub.docker.com/r/aguacongas/aguacongastheidserverblazorapp).  
+If you prefer, you can install the [standalone application'sLinux image](https://hub.docker.com/r/aguacongas/theidserverapp).  
 This image uses an [nginx](http://nginx.org/) server to host the application.
 
 ### From Github Release
@@ -23,7 +23,7 @@ NuGet packages composing the application are available on [nuget.org](https://ww
 
 * **Aguacongas.TheIdServer.BlazorApp.Infrastructure** contains application models, services, validators and extensions
 * **Aguacongas.TheIdServer.BlazorApp.Components** contains application components
-* **Aguacongas.TheIdServer.BlazorApp.Pages** contains application pages
+* **Aguacongas.TheIdServer.BlazorApp.Pages.*** contains application pages
 
 ## Configuration
 

@@ -1,3 +1,5 @@
+// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
 using Aguacongas.IdentityServer.Admin.Services;
 using Aguacongas.IdentityServer.EntityFramework.Store;
 using Aguacongas.IdentityServer.Store;
@@ -102,7 +104,8 @@ namespace Aguacongas.TheIdServer.Api
                 });
 
 
-            services.AddResponseCompression(opts =>
+            services.AddDatabaseDeveloperPageExceptionFilter()
+                .AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
                     new[] { "application/octet-stream" });
@@ -115,7 +118,7 @@ namespace Aguacongas.TheIdServer.Api
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage()
-                    .UseDatabaseErrorPage();
+                    .UseMigrationsEndPoint();
             }
             else
             {

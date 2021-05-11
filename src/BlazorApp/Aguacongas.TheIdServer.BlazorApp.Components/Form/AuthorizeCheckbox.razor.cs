@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
 namespace Aguacongas.TheIdServer.BlazorApp.Components.Form

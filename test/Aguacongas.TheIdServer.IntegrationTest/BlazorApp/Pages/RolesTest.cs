@@ -1,6 +1,7 @@
-﻿using Aguacongas.IdentityServer.Store.Entity;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Store.Entity;
 using Aguacongas.TheIdServer.Data;
-using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -21,7 +22,7 @@ namespace Aguacongas.TheIdServer.IntegrationTest.BlazorApp.Pages
         {
             return DbActionAsync<ApplicationDbContext>(context =>
             {
-                context.Roles.Add(new IdentityRole
+                context.Roles.Add(new Role
                 {
                     Id = GenerateId(),
                     Name = "filtered",

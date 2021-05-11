@@ -6,19 +6,67 @@ Read [Configuration in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/cor
 
 ## Installation
 
+### From Helm
+
+The [theidserver](https://hub.helm.sh/packages/helm/aguafrommars/theidserver) Helm chart is available in [hub.helm.sh](https://hub.helm.sh).
+
+#### Install
+
+``` bash
+helm repo add aguafrommars https://aguafrommars.github.io/helm
+helm install aguafrommars theidserver --set theidserver.mysql.db.password=my-P@ssword
+```
+
+#### Upgrade
+
+Follow upgrades intstructions in the [chart readme](https://github.com/Aguafrommars/helm/blob/main/charts/theidserver/README.md#upgrade).
+
 ### From Docker
 
-A [server's Linux image](https://hub.docker.com/r/aguacongas/aguacongastheidserver) is available on Docker Hub.
+A [server's Linux image](https://hub.docker.com/r/aguacongas/theidserver) is available on Docker Hub.
 
-[*sample/MultiTiers/Aguacongas.TheIdServer.Private/Dockerfile-private*](../../sample/MultiTiers/Aguacongas.TheIdServer.Private/Dockerfile-private) demonstrates how to create an image from the [server image](https://hub.docker.com/r/aguacongas/aguacongastheidserver) to run a private Linux server container.
+[*sample/MultiTiers/Aguacongas.TheIdServer.Private/Dockerfile-private*](../../sample/MultiTiers/Aguacongas.TheIdServer.Private/Dockerfile-private) demonstrates how to create an image from the [server image](https://hub.docker.com/r/aguacongas/theidserver) to run a private Linux server container.
 
-[*sample/MultiTiers/Aguacongas.TheIdServer.Public/Dockerfile-public*](../../sample/MultiTiers/Aguacongas.TheIdServer.Public/Dockerfile-public) illustrates how to create an image from the [server image](https://hub.docker.com/r/aguacongas/aguacongastheidserver) to run a public Linux server container.
+[*sample/MultiTiers/Aguacongas.TheIdServer.Public/Dockerfile-public*](../../sample/MultiTiers/Aguacongas.TheIdServer.Public/Dockerfile-public) illustrates how to create an image from the [server image](https://hub.docker.com/r/aguacongas/theidserver) to run a public Linux server container.
 
 Read [Hosting ASP.NET Core images with Docker over HTTPS](https://docs.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-3.1) to set up the HTTPS certificate.
 
 #### Kubernetes sample
 
 [/sample/Kubernetes/README.md](/sample/Kubernetes/README.md) contains a sample to set up a solution with Kubernetes.
+
+### From dotnet new template
+
+The template [TheIdServer.Template](https://github.com/Aguafrommars/Templates) can be use to setup a TheIdServer solution.
+
+#### Install
+
+```bash
+dotnet new -i TheIdServer.Template
+```
+
+#### Use
+
+```bash
+> dotnet new tis -o TheIdServer
+The template "TheIdServer" was created successfully.
+
+Processing post-creation actions...
+Running 'dotnet restore' on TheIdServer\TheIdServer.sln...
+  Determining projects to restore...
+  Restored C:\Projects\Perso\Templates\artifacts\TheIdServer\test\WebAssembly.Net.Http\WebAssembly.Net.Http.csproj (in 114 ms).
+  Restored C:\Projects\Perso\Templates\artifacts\TheIdServer\src\TheIdServer.BlazorApp\TheIdServer.BlazorApp.csproj (in 916 ms).
+  Restored C:\Projects\Perso\Templates\artifacts\TheIdServer\test\Microsoft.AspNetCore.Components.Testing\Microsoft.AspNetCore.Components.Testing.csproj (in 1.08 sec).
+  Restored C:\Projects\Perso\Templates\artifacts\TheIdServer\src\TheIdServer\TheIdServer.csproj (in 2.03 sec).
+  Restored C:\Projects\Perso\Templates\artifacts\TheIdServer\test\TheIdServer.Test\TheIdServer.Test.csproj (in 2.04 sec).
+  Restored C:\Projects\Perso\Templates\artifacts\TheIdServer\test\TheIdServer.IntegrationTest\TheIdServer.IntegrationTest.csproj (in 2.04 sec).
+Restore succeeded.
+```
+
+### From NuGet Packages
+
+If you need more customization, you can use published NuGet packages.
+[sample/MultiTiers](sample/MultiTiers) contains a sample to build server and API from NuGet packages.
 
 ### From Github Release
 
@@ -27,10 +75,25 @@ Unzip in the destination of your choice. Unzip in the destination of your choice
 
 Read [Host and deploy ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/?view=aspnetcore-3.1) for more information.
 
-### From NuGet Packages
+## Configure data protection
 
-If you need more customization, you can use published NuGet packages.
-[sample/MultiTiers](sample/MultiTiers) contains a sample to build server and API from NuGet packages.
+[Data protection](../../doc/DATA_PROTECTION.md) provides details on data protection configuration.
+
+## Configure site
+
+The site name is defined by *SiteOptions:TheIdServer*.
+
+```json
+"SiteOptions": {
+  "Name": "TheIdServer"
+}
+```
+
+The site stylecheets are *wwwroot/lib/bootstrap/css/bootstrap.css* and *wwwroot/css/site.min.css*.  
+The site logo is *wwwroot/logo.png*.  
+And the favicon is *wwwroot/favicon.ico*.
+
+By replacing those files you can redefined the site style by yours.
 
 ## Configure IdentityServer4
 
@@ -44,6 +107,9 @@ So you can set any IdentityServer4 options you want from configuration
     "RaiseInformationEvents": true,
     "RaiseFailureEvents": true,
     "RaiseSuccessEvents": true
+  },
+  "Endpoints": {
+    "EnableJwtRequestUri": true
   }
 }
 ```
@@ -69,7 +135,45 @@ And **ConnectionStrings:DefaultConnection** to define the connection string.
 
 > A [devart dotConnect for Oracle](https://www.devart.com/dotconnect/oracle/) license is a requirement for Oracle.
 
+### Using RavenDb
+
+Use **DbType** to the define the RavenDb database engine.
+
+```json
+"DbType": "RavenDb"
+```
+
+And **RavenDbOptions** to define the RavenDb options.
+
+```json
+"RavenDbOptions": {
+  "Urls": [
+    "https://a.ravendb.local",
+    "https://b.ravendb.local",
+    "https://c.ravendb.local"
+  ],
+  "Database": "TheIdServer",
+  "CertificatePath": "cluster.admin.client.certificate.pfx",
+  "CertificatePassword": "p@$$w0rd"
+}
+```
+
+> As no `DbContext` will be registered, you cannot store signing keys in EF but you can choose the `RavenDb` storage kind (see [Configure signin keys](#configure-signing-key)):
+```json
+"IdentityServer": {
+  "Key": {
+    "StorageKind": "RavenDb"
+  }
+},
+"DataProtectionOptions": {
+  "StorageKind": "RavenDb"
+}
+```
+> The server support RavenDb 4.1 and above. 
+
 ### Using the API
+
+![public-private.svg](../../doc/assets/public-pribate.png)
 
 If you don't want to expose a database with your server, you can set up a second server on a private network accessing the database and use this private server API to access data.
 
@@ -125,16 +229,6 @@ Starting the server with the **/seed** command-line argument creates the databas
 * **Is4-Writer** authorizes users in this role to write data.
 * **Is4-Reader** permits users in this role to read data.
 
-#### Users
-
-* **alice** (password *Pass123$*) is assigned to the roles **Is4-Writer** and **Is4-Reader**.
-* **bob** (password *Pass123$*) is assigned to the role **Is4-Reader**.
-
-#### Protected resources (API)
-
-* **theidserveradminapi** the server API asking for claims **name** and **role**
-* **api1** a sample API 
-
 #### Identity resources
 
 * **profile** default profile resource with **role** claim
@@ -143,17 +237,236 @@ Starting the server with the **/seed** command-line argument creates the databas
 * **email** default email resource
 * **phone** default phone resource
 
+#### Users
+
+Users defined in `InitialData:Users` configuration section are loaded and stored to the DB.
+
+Default configuration:
+
+```json
+"InitialData": {
+...
+ "Users": [
+    {
+      "UserName": "alice",
+      "Email": "alice@theidserver.com",
+      "EmailConfirmed": true,
+      "PhoneNumber": "+41766403736",
+      "PhoneNumberConfirmed": true,
+      "Password": "Pass123$",
+      "Roles": [
+        "Is4-Writer",
+        "Is4-Reader"
+      ],
+      "Claims": [
+        {
+          "ClaimType": "name",
+          "ClaimValue": "Alice Smith"
+        },
+        {
+          "ClaimType": "given_name",
+          "ClaimValue": "Alice"
+        },
+        {
+          "ClaimType": "family_name",
+          "ClaimValue": "Smith"
+        },
+        {
+          "ClaimType": "middle_name",
+          "ClaimValue": "Alice Smith"
+        },
+        {
+          "ClaimType": "nickname",
+          "ClaimValue": "alice"
+        },
+        {
+          "ClaimType": "website",
+          "ClaimValue": "http://alice.com"
+        },
+        {
+          "ClaimType": "address",
+          "ClaimValue": "{ \"street_address\": \"One Hacker Way\", \"locality\": \"Heidelberg\", \"postal_code\": \"69118\", \"country\": \"Germany\" }",
+        },
+        {
+          "ClaimType": "birthdate",
+          "ClaimValue": "1970-01-01"
+        },
+        {
+          "ClaimType": "zoneinfo",
+          "ClaimValue": "ch"
+        },
+        {
+          "ClaimType": "gender",
+          "ClaimValue": "female"
+        },
+        {
+          "ClaimType": "profile",
+          "ClaimValue": "http://alice.com/profile"
+        },
+        {
+          "ClaimType": "locale",
+          "ClaimValue": "fr"
+        },
+        {
+          "ClaimType": "picture",
+          "ClaimValue": "http://alice.com/picture"
+        }
+      ]
+    }
+  ]
+}
+```
+
+> A user with *Is4-Writer* and *Is4-Reader* roles is required to use the admin app.
+
+#### Protected resources (API)
+
+Apis defined in `InitialData:Apis` configuration section are loaded and stored to the DB.
+
+Default configuration:
+
+```json
+"InitialData": {
+...
+  "Apis": [
+    {
+      "Name": "theidserveradminapi",
+      "DisplayName": "TheIdServer admin API",
+      "UserClaims": [
+        "name",
+        "role"
+      ],
+      "ApiSecrets": [
+        {
+          "Type": "SharedSecret",
+          "Value": "5b556f7c-b3bc-4b5b-85ab-45eed0cb962d"
+        }
+      ],
+      "Scopes": [
+        "theidserveradminapi"
+      ]
+    }
+  ],
+}
+```
+
+> The api **theidserveradminapi** is required for the admin app.
+
+#### ApiScopes
+
+ApiScopes defined in `InitialData:ApiScopes` configuration section are loaded and stored to the DB.
+
+Default configuration:
+
+```json
+"InitialData": {
+...
+  "ApiScopes": [
+    {
+      "Name": "theidserveradminapi",
+      "DisplayName": "TheIdServer admin API",
+      "UserClaims": [
+        "name",
+        "role"
+      ]
+    }
+  ],
+}
+```
+
+> The scope **theidserveradminapi** is required for the admin app.
+
 #### Clients
 
-* **theidserveradmin** the admin app client
-* **public-server** the client to use a server as proxy
-* **theidserver-swagger** the client for the API documentation
-* **client** a client credential flow sample client
-* **mvc** a hybrid and client credential flow sample client
-* **spa** an authorization code flow sample client
-* **device** a device flow sample client
+Clients defined in `InitialData:Clients` configuration section are loaded and stored to the DB.
 
-## Configure Credentials
+Default configuration:
+
+```json
+"InitialData": {
+...
+  "Clients": [
+    {
+      "ClientId": "theidserveradmin",
+      "ClientName": "TheIdServer admin SPA Client",
+      "ClientUri": "https://localhost:5443/",
+      "ClientClaimsPrefix": null,
+      "AllowedGrantTypes": [ "authorization_code" ],
+      "RequirePkce": true,
+      "RequireClientSecret": false,
+      "BackChannelLogoutSessionRequired": false,
+      "FrontChannelLogoutSessionRequired": false,
+      "RedirectUris": [
+        "http://localhost:5001/authentication/login-callback",
+        "https://localhost:5443/authentication/login-callback"
+      ],
+      "PostLogoutRedirectUris": [
+        "http://localhost:5001/authentication/logout-callback",
+        "https://localhost:5443/authentication/logout-callback"
+      ],
+      "AllowedCorsOrigins": [
+        "http://localhost:5001",
+        "https://localhost:5443"
+      ],
+      "AllowedScopes": [
+        "openid",
+        "profile",
+        "theidserveradminapi"
+      ],
+      "AccessTokenType": "Reference"
+    },
+    {
+      "ClientId": "public-server",
+      "ClientName": "Public server Credentials Client",
+      "ClientClaimsPrefix": null,
+      "AllowedGrantTypes": [ "client_credentials" ],
+      "ClientSecrets": [
+        {
+          "Type": "SharedSecret",
+          "Value": "84137599-13d6-469c-9376-9e372dd2c1bd"
+        }
+      ],
+      "Claims": [
+        {
+          "Type": "role",
+          "Value": "Is4-Writer"
+        },
+        {
+          "Type": "role",
+          "Value": "Is4-Reader"
+        }
+      ],
+      "BackChannelLogoutSessionRequired": false,
+      "FrontChannelLogoutSessionRequired": false,
+      "AllowedScopes": [
+        "openid",
+        "profile",
+        "theidserveradminapi"
+      ],
+      "AccessTokenType": "Reference"
+    }
+  ],
+}
+```
+
+> The client **theidserveradmin** is required by the admin app.
+> The client **public-server** is required to call web apis and server side prerendering of the admin app.
+
+## Configure Signing Key
+
+### Keys rotatation (remanded)
+
+TheIdServer can be configured with a keys rotation mechanism instead of a single key.  
+Read [Keys rotation](../../doc/KEYS_ROTATION.md) to know how to configure it.
+
+```json
+"IdentityServer": {
+  "Key": {
+    "Type": "KeysRotation",
+    "StorageKind": "EntityFramework"
+  }
+}
+```
 
 ### From file
 
@@ -299,6 +612,15 @@ The section **ForwardedHeadersOptions** is bound to the class [`Microsoft.AspNet
 }
 ```
 
+### Force HTTPS scheme
+
+Some reverses proxies don't' forward headers. You can force HTTP requests schemes to https by settings ForceHttpsScheme.
+
+```json
+"ForceHttpsScheme": true
+```
+
+
 ## Configure the provider hub
 
 The [Aguacongas.AspNetCore.Authentication library](https://github.com/Aguafrommars/DymamicAuthProviders) dynamically configures external providers.  
@@ -429,6 +751,31 @@ It this case, the client registration request must contain the *contacts* array.
 }
 ```
 
+## Configure Jwt request validator
+
+Tokens returned by request_uri parameter are validated using the rules defined in *TokenValidationParameters* section. By default, the following rules are defined.
+
+```json
+"TokenValidationParameters": {
+  "ValidateIssuer": false,
+  "ValidateAudience": false,
+  "ValidateIssuerSigningKey": false,
+  "ValidateLifetime": false,
+  "RequireAudience": false,
+  "RequireExpirationTime": false,
+  "RequireSignedTokens": false
+}
+```
+
+> To enable JWT request uri, set *EnableJwtRequestUri* to true in *IdentityServerOptions:Endpoints*
+> ```json
+> "IdentityServerOptions": {
+>   "Endpoints": {
+>     "EnableJwtRequestUri": true
+>   }
+> },
+> ```
+
 ## Additional resources
 
 * [Host and deploy ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/?view=aspnetcore-3.1)
@@ -437,4 +784,4 @@ It this case, the client registration request must contain the *contacts* array.
 * [Microsoft.AspNetCore.SignalR.StackExchangeRedis.RedisOptions](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.signalr.stackexchangeredis.redisoptions?view=aspnetcore-3.0)
 * [Serilog.Settings.Configuration](https://github.com/serilog/serilog-settings-configuration/blob/dev/README.md)
 * [Hosting ASP.NET Core images with Docker over HTTPS](https://docs.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-3.1)
-
+* [OpenID Connect Dynamic Client Registration](https://openid.net/specs/openid-connect-registration-1_0.html)

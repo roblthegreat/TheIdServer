@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Admin.Http.Store;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Admin.Http.Store;
 using Aguacongas.IdentityServer.Store;
 using Aguacongas.IdentityServer.Store.Entity;
 using Microsoft.Extensions.Logging;
@@ -22,12 +24,13 @@ namespace Microsoft.Extensions.DependencyInjection
                 AddHttpAdminStore(services, entityType, getHttpClient);
             }
 
-            return services.AddTransient<IIdentityProviderStore>(
-                    p => new IdentityProviderStore(getHttpClient.Invoke(p),
-                        p.GetRequiredService<ILogger<IdentityProviderStore>>()))
-                .AddTransient<IExternalProviderKindStore>(
+            return services.AddTransient<IExternalProviderKindStore>(
                     p => new ExternalProviderKindStore(getHttpClient.Invoke(p),
-                        p.GetRequiredService<ILogger<ExternalProviderKindStore>>()));
+                        p.GetRequiredService<ILogger<ExternalProviderKindStore>>()))
+                .AddTransient<IKeyStore<IAuthenticatedEncryptorDescriptor>>(p => new  KeyStore<IAuthenticatedEncryptorDescriptor>(getHttpClient.Invoke(p),
+                        p.GetRequiredService<ILogger<KeyStore<IAuthenticatedEncryptorDescriptor>>>()))
+                .AddTransient<IKeyStore<RsaEncryptorDescriptor>>(p => new KeyStore<RsaEncryptorDescriptor>(getHttpClient.Invoke(p),
+                        p.GetRequiredService<ILogger<KeyStore<RsaEncryptorDescriptor>>>()));
         }
 
         private static void AddHttpAdminStore(IServiceCollection services,

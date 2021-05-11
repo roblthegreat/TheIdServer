@@ -1,4 +1,6 @@
-﻿namespace Aguacongas.TheIdServer.BlazorApp.Models
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+namespace Aguacongas.TheIdServer.BlazorApp.Models
 {
     /// <summary>
     /// Refresh token usage

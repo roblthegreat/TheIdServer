@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Abstractions;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Abstractions;
 using Aguacongas.IdentityServer.Store;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
@@ -59,7 +61,7 @@ namespace Aguacongas.IdentityServer.Admin.Services
         protected override async Task<IEnumerable<Claim>> GetClaimsFromResource(Resource resource, ClaimsPrincipal subject, Client client, string caller, string providerTypeName)
         {
             var response = await _httpClient
-                .GetAsync($"/claimsprovider?resource={resource.Name}&subject={subject.GetSubjectId()}&client={client.ClientId}&caller={caller}&type={providerTypeName}")
+                .GetAsync($"claimsprovider?resourceName={resource.Name}&userId={subject.GetSubjectId()}&clientId={client.ClientId}&caller={caller}&providerTypeName={providerTypeName}")
                 .ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();

@@ -1,5 +1,7 @@
-﻿using Aguacongas.TheIdServer.Data;
-using Aguacongas.TheIdServer.Models;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.EntityFramework.Store;
+using Aguacongas.TheIdServer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,9 +28,8 @@ namespace Aguacongas.TheIdServer.SqlServer
 
                     Action<DbContextOptionsBuilder> optionsAction = options => options.UseSqlServer(cn, options => options.MigrationsAssembly("Aguacongas.TheIdServer.Migrations.SqlServer"));
                     services.AddDbContext<ApplicationDbContext>(optionsAction)
-                        .AddIdentityServer4AdminEntityFrameworkStores<ApplicationUser, ApplicationDbContext>()
-                        .AddConfigurationEntityFrameworkStores(optionsAction)
-                        .AddOperationalEntityFrameworkStores(optionsAction);
+                        .AddDbContext<ConfigurationDbContext>(optionsAction)
+                        .AddDbContext<OperationalDbContext>(optionsAction);
                 });
 
     }

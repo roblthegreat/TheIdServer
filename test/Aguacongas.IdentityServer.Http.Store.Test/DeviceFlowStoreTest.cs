@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Store;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Store;
 using Aguacongas.IdentityServer.Store.Entity;
 using IdentityServer4.Stores.Serialization;
 using Moq;
@@ -18,7 +20,10 @@ namespace Aguacongas.IdentityServer.Http.Store.Test
                 out DeviceFlowStore sut);
 
             storeMock.Setup(m => m.GetAsync(It.IsAny<PageRequest>(), default))
-                .ReturnsAsync(new PageResponse<DeviceCode>())
+                .ReturnsAsync(new PageResponse<DeviceCode>
+                {
+                    Items = Array.Empty<DeviceCode>()
+                })
                 .Verifiable();
 
             await sut.FindByDeviceCodeAsync("test");
@@ -48,7 +53,10 @@ namespace Aguacongas.IdentityServer.Http.Store.Test
                 out DeviceFlowStore sut);
 
             storeMock.Setup(m => m.GetAsync(It.IsAny<PageRequest>(), default))
-                .ReturnsAsync(new PageResponse<DeviceCode>())
+                .ReturnsAsync(new PageResponse<DeviceCode>
+                {
+                    Items = Array.Empty<DeviceCode>()
+                })
                 .Verifiable();
 
             await sut.FindByUserCodeAsync("test");
@@ -126,7 +134,6 @@ namespace Aguacongas.IdentityServer.Http.Store.Test
             storeMock.Setup(m => m.GetAsync(It.IsAny<PageRequest>(), default))
                 .ReturnsAsync(new PageResponse<DeviceCode>
                 {
-                    Count = 1,
                     Items = new List<DeviceCode>
                     {
                         new DeviceCode
@@ -145,7 +152,7 @@ namespace Aguacongas.IdentityServer.Http.Store.Test
             storeMock.Setup(m => m.GetAsync(It.IsAny<PageRequest>(), default))
                 .ReturnsAsync(new PageResponse<DeviceCode>
                 {
-                    Count = 0,
+                    Items = Array.Empty<DeviceCode>()
                 })
                 .Verifiable();
 

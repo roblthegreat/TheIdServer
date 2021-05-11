@@ -1,4 +1,6 @@
-﻿using HtmlAgilityPack;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using HtmlAgilityPack;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Testing;
 using System.Collections.Generic;

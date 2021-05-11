@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Admin.Options;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Admin.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -96,7 +98,7 @@ namespace Aguacongas.IdentityServer.Admin.Configuration
         // for testing purposes only
         internal virtual DateTimeOffset GetCurrentTime() => DateTimeOffset.UtcNow;
 
-        private X509KeyStorageFlags GetStorageFlags(KeyDefinition key)
+        private static X509KeyStorageFlags GetStorageFlags(KeyDefinition key)
         {
             var x509KeyStorageFlags = (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? X509KeyStorageFlags.PersistKeySet :
                             X509KeyStorageFlags.DefaultKeySet);

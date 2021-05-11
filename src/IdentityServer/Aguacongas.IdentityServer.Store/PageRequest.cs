@@ -1,4 +1,6 @@
-﻿namespace Aguacongas.IdentityServer.Store
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+namespace Aguacongas.IdentityServer.Store
 {
     /// <summary>
     /// Represents a request producing page response
@@ -8,7 +10,7 @@
         /// <summary>
         /// Gets or sets the number of items to take. Default value is 1000.
         /// </summary>
-        public int? Take { get; set; } = 1000;
+        public int? Take { get; set; }
 
         /// <summary>
         /// Gets or sets the number of items to skip

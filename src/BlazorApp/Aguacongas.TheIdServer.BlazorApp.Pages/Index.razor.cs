@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Microsoft.AspNetCore.Components;
 using System.Globalization;
 using System.Threading.Tasks;
 
@@ -15,7 +17,7 @@ namespace Aguacongas.TheIdServer.BlazorApp.Pages
             Localizer.OnResourceReady = () => InvokeAsync(async () => 
             {
                 await GetRenderFragmentAsync().ConfigureAwait(false);
-                StateHasChanged();
+                await InvokeAsync(StateHasChanged).ConfigureAwait(false);
             });
         }
 

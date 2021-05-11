@@ -1,18 +1,24 @@
-﻿using Aguacongas.AspNetCore.Authentication;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.AspNetCore.Authentication;
 using Aguacongas.IdentityServer.Abstractions;
 using Aguacongas.IdentityServer.Admin;
 using Aguacongas.IdentityServer.Admin.Filters;
 using Aguacongas.IdentityServer.Admin.Services;
+using Aguacongas.IdentityServer.KeysRotation;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.Twitter;
+using Microsoft.AspNetCore.Authentication.WsFederation;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -22,6 +28,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ICacheableKeyRingProvider = Aguacongas.IdentityServer.KeysRotation.ICacheableKeyRingProvider;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -41,19 +48,22 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var services = builder.Services;
             var assembly = typeof(MvcBuilderExtensions).Assembly;
-            services.AddTransient<IPersistedGrantService, PersistedGrantService>()
-                .AddTransient<SendGridEmailSender>()
-                .AddTransient<IProviderClient, ProviderClient>()
-                .AddSingleton<IHostedService, SchemeChangeHost>()
+            services.AddHostedService<SchemeChangeHost>()
                 .AddSingleton<HubConnectionFactory>()
+                .AddSingleton<StringLocalizerFactory>()
+                .AddSingleton<IStringLocalizerFactory>(p => p.GetRequiredService<StringLocalizerFactory>())
+                .AddSingleton<ISupportCultures>(p => p.GetRequiredService<StringLocalizerFactory>())
+                .AddTransient<IPersistedGrantService, PersistedGrantService>()
+                .AddTransient<SendGridEmailSender>()
+                .AddTransient<IProviderClient, ProviderClient>()                
                 .AddTransient(p => new HubHttpMessageHandlerAccessor { Handler = p.GetRequiredService<HttpClientHandler>() })
                 .AddTransient<ExternalClaimsTransformer<TUser>>()
                 .AddTransient<IProxyClaimsProvider, ProxyClaimsProvider<TUser>>()
-                .AddTransient<StringLocalizerFactory>()
-                .AddTransient<IStringLocalizerFactory>(p => p.GetRequiredService<StringLocalizerFactory>())
-                .AddTransient<ISupportCultures>(p => p.GetRequiredService<StringLocalizerFactory>())
                 .AddTransient<IRetrieveOneTimeToken, OneTimeTokenService>()
                 .AddTransient<IImportService, ImportService>()
+                .AddTransient<ICertificateVerifierService, CertificateVerifierService>()
+                .AddTransient(p => new KeyManagerWrapper<IAuthenticatedEncryptorDescriptor>(p.GetRequiredService<IKeyManager>(), p.GetRequiredService<IDefaultKeyResolver>(), p.GetRequiredService<IProviderClient>()))
+                .AddTransient(p => new KeyManagerWrapper<RsaEncryptorDescriptor>(p.GetService<ICacheableKeyRingProvider>()?.KeyManager ?? new NullKeyManager(), p.GetRequiredService<IDefaultKeyResolver>(), p.GetRequiredService<IProviderClient>()))
                 .AddSwaggerDocument(config =>
                 {
                     config.PostProcess = document =>
@@ -112,7 +122,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.AddApplicationPart(assembly)
                 .ConfigureApplicationPartManager(apm =>
-                    apm.FeatureProviders.Add(new GenericApiControllerFeatureProvider()));
+                    apm.FeatureProviders.Add(new GenericControllerFeatureProvider()));
 
             return CreateDynamicAuthenticationBuilder<TUser, TSchemeDefinition>(services);
         }
@@ -126,12 +136,12 @@ namespace Microsoft.Extensions.DependencyInjection
                             .AddDynamic<TSchemeDefinition>();
 
             dynamicBuilder.AddGoogle(options =>
-            {
-                options.Events = new OAuthEvents
                 {
-                    OnTicketReceived = OnTicketReceived<TUser>()
-                };
-            })
+                    options.Events = new OAuthEvents
+                    {
+                        OnTicketReceived = OnTicketReceived<TUser>()
+                    };
+                })
                 .AddFacebook(options =>
                 {
                     options.Events = new OAuthEvents
@@ -189,6 +199,13 @@ namespace Microsoft.Extensions.DependencyInjection
                             context.RunClaimActions(doc.RootElement);
                         }
                     };
+                })
+                .AddWsFederation(options =>
+                {
+                    options.Events = new WsFederationEvents
+                    {
+                        OnTicketReceived = OnTicketReceived<TUser>()
+                    };
                 });
 
             return dynamicBuilder;
@@ -202,7 +219,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var filters = options.Filters;
             filters.Add<FormatFilter>();
-            filters.Add<SelectFilter>();
+            filters.Add<ExternalProviderFilter>();
             filters.Add<ExceptionFilter>();
             filters.Add<ActionsFilter>();
 

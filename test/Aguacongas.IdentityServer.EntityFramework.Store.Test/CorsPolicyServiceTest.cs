@@ -1,6 +1,11 @@
-﻿using IdentityServer4.Services;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Store;
+using Aguacongas.TheIdServer.Authentication;
+using IdentityServer4.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -20,6 +25,8 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store.Test
         {
             var provider = new ServiceCollection()
                 .AddLogging()
+                .Configure<IdentityServer4.Configuration.IdentityServerOptions>(options => options.Caching.CorsExpiration = TimeSpan.FromMinutes(1))
+                .AddTransient(p => p.GetRequiredService<IOptions<IdentityServer4.Configuration.IdentityServerOptions>>().Value)
                 .AddConfigurationEntityFrameworkStores(options =>
                     options.UseInMemoryDatabase(Guid.NewGuid().ToString()))
                 .BuildServiceProvider();

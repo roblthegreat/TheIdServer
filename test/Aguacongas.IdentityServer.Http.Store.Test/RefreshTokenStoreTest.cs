@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Store;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Store;
 using Aguacongas.IdentityServer.Store.Entity;
 using IdentityServer4.Stores.Serialization;
 using Moq;
@@ -70,7 +72,7 @@ namespace Aguacongas.IdentityServer.Http.Store.Test
 
             await sut.RemoveRefreshTokensAsync("test", "test");
 
-            storeMock.Verify(m => m.GetAsync(It.Is<PageRequest>(p => p.Filter == "UserId eq 'test' And ClientId eq 'test'"), default));
+            storeMock.Verify(m => m.GetAsync(It.Is<PageRequest>(p => p.Filter == "UserId eq 'test' and ClientId eq 'test'"), default));
             storeMock.Verify(m => m.DeleteAsync(It.Is<string>(r => r == "id"), default));
         }
 
@@ -100,7 +102,7 @@ namespace Aguacongas.IdentityServer.Http.Store.Test
                 }
             });
 
-            storeMock.Verify(m => m.GetAsync(It.Is<PageRequest>(p => p.Filter == "UserId eq '' And ClientId eq 'test'"), default));
+            storeMock.Verify(m => m.GetAsync(It.Is<PageRequest>(p => p.Filter == "UserId eq '' and ClientId eq 'test'"), default));
             storeMock.Verify(m => m.CreateAsync(It.IsAny<RefreshToken>(), default));
         }
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
@@ -74,7 +76,11 @@ namespace Microsoft.AspNetCore.Components.Testing
         public async Task WaitForNextRenderAsync(Func<Task> trigger = null)
         {
             var task = Renderer.NextRender;
-            await trigger?.Invoke();
+            if (trigger != null)
+            {
+                await trigger.Invoke();
+            }
+            
             if (Debugger.IsAttached)
             {
                 task.Wait();

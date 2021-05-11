@@ -1,6 +1,9 @@
-﻿using IdentityServer4.Models;
-using Microsoft.AspNetCore.Authentication;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using AutoMapper.Internal;
+using IdentityServer4.Models;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
@@ -8,19 +11,6 @@ namespace Aguacongas.IdentityServer.Store
 {
     public static class EntityExtensions
     {
-        public static Entity.IdentityProvider ToIdentityProvider(this AuthenticationScheme scheme)
-        {
-            if (scheme == null)
-            {
-                return null;
-            }
-            return new Entity.IdentityProvider
-            {
-                Id = scheme.Name,
-                DisplayName = scheme.DisplayName
-            };
-        }
-
         public static Client ToClient(this Entity.Client client)
         {
             if (client == null)
@@ -75,7 +65,13 @@ namespace Aguacongas.IdentityServer.Store
                 ClientId = client.Id,
                 ClientName = resources.FirstOrDefault(r => r.ResourceKind == Entity.EntityResourceKind.DisplayName
                     && r.CultureId == cultureId)?.Value ?? client.ClientName,
-                ClientSecrets = client.ClientSecrets.Select(s => new Secret(s.Value, s.Expiration)).ToList(),
+                ClientSecrets = client.ClientSecrets.Select(s => new Secret
+                {
+                    Value = s.Value,
+                    Expiration = s.Expiration,
+                    Description = s.Description,
+                    Type = s.Type
+                }).ToList(),
                 ClientUri = resources.FirstOrDefault(r => r.ResourceKind == Entity.EntityResourceKind.ClientUri
                     && r.CultureId == cultureId)?.Value ?? client.ClientUri,
                 ConsentLifetime = client.ConsentLifetime,
@@ -204,6 +200,16 @@ namespace Aguacongas.IdentityServer.Store
             return uri.Scheme.ToUpperInvariant() == cors.Scheme.ToUpperInvariant() &&
                 uri.Host.ToUpperInvariant() == cors.Host.ToUpperInvariant() &&
                 uri.Port == cors.Port;
+        }
+
+        public static void Copy<TEntity>(this TEntity from, TEntity to) where TEntity: Entity.IEntityId
+        {
+            var properties = typeof(TEntity).GetProperties()
+                .Where(p => !p.PropertyType.ImplementsGenericInterface(typeof(ICollection<>)));
+            foreach (var property in properties)
+            {
+                property.SetValue(to, property.GetValue(from));
+            }
         }
 
         private static string UriPortString(this Uri uri)

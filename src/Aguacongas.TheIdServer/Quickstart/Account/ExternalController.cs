@@ -1,3 +1,5 @@
+// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
 using Aguacongas.TheIdServer.Models;
 using IdentityModel;
 using IdentityServer4.Events;
@@ -56,7 +58,10 @@ namespace IdentityServer4.Quickstart.UI
         [HttpGet]
         public async Task<IActionResult> Challenge(string provider, string returnUrl)
         {
-            if (string.IsNullOrEmpty(returnUrl)) returnUrl = "~/";
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                returnUrl = "~/";
+            }
 
             // validate returnUrl - either it is a valid OIDC URL or back to a local page
             if (!Url.IsLocalUrl(returnUrl) && !_interaction.IsValidReturnUrl(returnUrl))
@@ -131,7 +136,7 @@ namespace IdentityServer4.Quickstart.UI
             var name = principal.FindFirst(JwtClaimTypes.Name)?.Value ?? user.Id;
 
             // issue authentication cookie for user
-            var isuser = new IdentityServerUser(providerUserId)
+            var isuser = new IdentityServerUser(user.Id)
             {
                 DisplayName = user.UserName,
                 IdentityProvider = provider,

@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Admin.Filters;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Admin.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -87,7 +89,7 @@ namespace Aguacongas.IdentityServer.Admin.Test.Filters
             {
                 ActionDescriptor = new ControllerActionDescriptor
                 {
-                    ControllerTypeInfo = typeof(IdentityProviderController).GetTypeInfo()
+                    ControllerTypeInfo = typeof(ExternalProviderKindController).GetTypeInfo()
                 },
                 Exception = e,
 

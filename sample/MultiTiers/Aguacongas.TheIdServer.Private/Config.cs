@@ -1,7 +1,5 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
-
-
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
 using IdentityServer4.Models;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -45,6 +43,19 @@ namespace Aguacongas.TheIdServer
                         }
                     }
                 }
+            };
+        }
+
+        public static IEnumerable<ApiScope> GetApiScopes()
+        {
+            return new ApiScope[]
+            {
+                new ApiScope("api1", "My API #1"),
+                new ApiScope("theidserveradminapi", "TheIdServer admin API", new string[]
+                {
+                    "name",
+                    "role"
+                })
             };
         }
 
@@ -155,10 +166,10 @@ namespace Aguacongas.TheIdServer
                     ClientSecrets = { new Secret("84137599-13d6-469c-9376-9e372dd2c1bd".Sha256()) },
 
                     AllowedScopes = { "theidserveradminapi" },
-                    Claims = new List<Claim>
+                    Claims = new List<ClientClaim>
                     {
-                        new Claim("role", "Is4-Writer"),
-                        new Claim("role", "Is4-Reader")
+                        new ClientClaim("role", "Is4-Writer"),
+                        new ClientClaim("role", "Is4-Reader")
                     },
                     FrontChannelLogoutSessionRequired = false,
                     BackChannelLogoutSessionRequired = false,

@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Abstractions;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
@@ -14,12 +16,24 @@ namespace Aguacongas.TheIdServer.Admin.Hubs
     public class ProviderHub : Hub<IProviderHub>, IProviderHub
     {
         /// <summary>
+        /// Key revoked.
+        /// </summary>
+        /// <param name="kind">The key kind.</param>
+        /// <param name="id">The key identifier.</param>
+        /// <returns></returns>
+        [Authorize(Policy = "Is4-Writer")]
+        public Task KeyRevoked(string kind, string id)
+        {
+            return Clients.Others.KeyRevoked(kind, id);
+        }
+
+        /// <summary>
         /// Providers the added.
         /// </summary>
         /// <param name="scheme">The scheme.</param>
         /// <returns></returns>
 
-        [Authorize(Policy = "Is4-Writter")]
+        [Authorize(Policy = "Is4-Writer")]
         public Task ProviderAdded(string scheme)
         {
             return Clients.Others.ProviderAdded(scheme);

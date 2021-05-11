@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>net5.0</TargetFramework>
 		<RootNamespace>Aguacongas.TheIdServer.Oracle</RootNamespace>
 		<Authors>Olivier Lefebvre</Authors>
 		<Copyright>Copyright (c) 2020 @Olivier Lefebvre</Copyright>
@@ -11,14 +11,24 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>theidserver;oracle</PackageTags>
 		<Description>Contains db contexts migrations code for Oracle.</Description>
+		<PackageIcon>package-icon.png</PackageIcon>
+		<CodeAnalysisRuleSet>..\..\..\..\.sonarlint\aguacongas_theidservercsharp.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Devart.Data.Oracle.EFCore" Version="9.12.1054" />
+	  <AdditionalFiles Include="..\..\..\..\.sonarlint\aguacongas_theidserver\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Devart.Data.Oracle.EFCore" Version="9.14.1234" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.5" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Aguacongas.IdentityServer.EntityFramework.Store\Aguacongas.IdentityServer.EntityFramework.Store.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+    <None Include="package-icon.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 </Project>

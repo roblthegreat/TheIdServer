@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Store;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Store;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores.Serialization;
@@ -62,7 +64,6 @@ namespace Aguacongas.IdentityServer.Admin.Services
         {
             var request = new PageRequest
             {
-                Take = null,
                 Filter = $"{nameof(Entity.IGrant.UserId)} eq '{subjectId}'"
             };
 
@@ -141,7 +142,6 @@ namespace Aguacongas.IdentityServer.Admin.Services
             }
             var request = new PageRequest
             {
-                Take = null,
                 Filter = filter
             };
             var consentListResponse = await _userConsentStore.GetAsync(request).ConfigureAwait(false);
@@ -168,7 +168,7 @@ namespace Aguacongas.IdentityServer.Admin.Services
         }
             
 
-        private IEnumerable<Grant> Join(IEnumerable<Grant> first, IEnumerable<Grant> second)
+        private static IEnumerable<Grant> Join(IEnumerable<Grant> first, IEnumerable<Grant> second)
         {
             var list = first.ToList();
 

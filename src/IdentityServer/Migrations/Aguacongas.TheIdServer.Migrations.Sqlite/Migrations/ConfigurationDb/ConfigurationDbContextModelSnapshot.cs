@@ -14,42 +14,7 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.6");
-
-            modelBuilder.Entity("Aguacongas.IdentityServer.EntityFramework.Store.SchemeDefinition", b =>
-                {
-                    b.Property<string>("Scheme")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DisplayName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("MapDefaultOutboundClaimType")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SerializedHandlerType")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SerializedOptions")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("StoreClaims")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Scheme");
-
-                    b.ToTable("Providers");
-                });
+                .HasAnnotation("ProductVersion", "5.0.5");
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiApiScope", b =>
                 {
@@ -96,8 +61,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -153,15 +118,15 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -180,13 +145,13 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(1000);
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Emphasize")
                         .HasColumnType("INTEGER");
@@ -225,8 +190,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -282,15 +247,15 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -313,8 +278,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(1000);
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Expiration")
                         .HasColumnType("TEXT");
@@ -324,8 +289,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -377,20 +342,20 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("BackChannelLogoutUri")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ClientClaimsPrefix")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ClientName")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ClientUri")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("ConsentLifetime")
                         .HasColumnType("INTEGER");
@@ -399,8 +364,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(1000);
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("DeviceCodeLifetime")
                         .HasColumnType("INTEGER");
@@ -415,8 +380,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FrontChannelLogoutUri")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("IdentityTokenLifetime")
                         .HasColumnType("INTEGER");
@@ -425,8 +390,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("LogoUri")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("TEXT");
@@ -435,16 +400,16 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PairWiseSubjectSalt")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PolicyUri")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ProtocolType")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("RefreshTokenExpiration")
                         .HasColumnType("INTEGER");
@@ -453,6 +418,9 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasColumnType("INTEGER");
 
                     b.Property<Guid?>("RegistrationToken")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RelyingPartyId")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("RequireClientSecret")
@@ -474,13 +442,15 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserCodeType")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("UserSsoLifetime")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RelyingPartyId");
 
                     b.ToTable("Clients");
                 });
@@ -502,8 +472,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
                         .HasColumnType("TEXT");
@@ -529,8 +499,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
 
                     b.Property<string>("GrantType")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("TEXT");
@@ -560,8 +530,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
 
                     b.Property<string>("Provider")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -617,15 +587,15 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -652,8 +622,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
 
                     b.Property<string>("Scope")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -676,8 +646,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Expiration")
                         .HasColumnType("TEXT");
@@ -687,8 +657,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -720,13 +690,13 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SanetizedCorsUri")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Uri")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -755,7 +725,7 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         new
                         {
                             Id = "en",
-                            CreatedAt = new DateTime(2020, 8, 13, 14, 4, 53, 252, DateTimeKind.Utc).AddTicks(6770)
+                            CreatedAt = new DateTime(2021, 5, 3, 16, 17, 38, 537, DateTimeKind.Utc).AddTicks(8840)
                         });
                 });
 
@@ -793,6 +763,38 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                     b.ToTable("ExternalClaimTransformations");
                 });
 
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ExternalProvider", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Scheme");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("MapDefaultOutboundClaimType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SerializedHandlerType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SerializedOptions")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("StoreClaims")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Providers");
+                });
+
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.IdentityClaim", b =>
                 {
                     b.Property<string>("Id")
@@ -809,8 +811,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Type")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -866,15 +868,15 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -893,12 +895,12 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(1000);
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("DisplayName")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Emphasize")
                         .HasColumnType("INTEGER");
@@ -967,13 +969,13 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(1000);
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Enabled")
                         .HasColumnType("INTEGER");
@@ -989,6 +991,72 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                     b.ToTable("Apis");
                 });
 
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.RelyingParty", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DigestAlgorithm")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("EncryptionCertificate")
+                        .HasColumnType("BLOB");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SamlNameIdentifierFormat")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SignatureAlgorithm")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TokenType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RelyingParties");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.RelyingPartyClaimMapping", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FromClaimType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RelyingPartyId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ToClaimType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RelyingPartyId");
+
+                    b.ToTable("RelyingPartyClaimMappings");
+                });
+
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiApiScope", b =>
                 {
                     b.HasOne("Aguacongas.IdentityServer.Store.Entity.ProtectResource", "Api")
@@ -1002,6 +1070,10 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ApiScopeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Api");
+
+                    b.Navigation("ApiScope");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiClaim", b =>
@@ -1011,6 +1083,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ApiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Api");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiLocalizedResource", b =>
@@ -1020,6 +1094,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ApiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Api");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiProperty", b =>
@@ -1029,6 +1105,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ApiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Api");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiScopeClaim", b =>
@@ -1038,6 +1116,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ApiScopeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ApiScope");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiScopeLocalizedResource", b =>
@@ -1047,6 +1127,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ApiScopeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ApiScope");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiScopeProperty", b =>
@@ -1056,6 +1138,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ApiScopeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ApiScope");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiSecret", b =>
@@ -1065,6 +1149,17 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ApiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Api");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.Client", b =>
+                {
+                    b.HasOne("Aguacongas.IdentityServer.Store.Entity.RelyingParty", "RelyingParty")
+                        .WithMany("Clients")
+                        .HasForeignKey("RelyingPartyId");
+
+                    b.Navigation("RelyingParty");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientClaim", b =>
@@ -1074,6 +1169,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientGrantType", b =>
@@ -1083,6 +1180,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientIdpRestriction", b =>
@@ -1092,6 +1191,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientLocalizedResource", b =>
@@ -1101,6 +1202,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientProperty", b =>
@@ -1110,6 +1213,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientScope", b =>
@@ -1119,6 +1224,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientSecret", b =>
@@ -1128,6 +1235,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientUri", b =>
@@ -1137,11 +1246,13 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ExternalClaimTransformation", b =>
                 {
-                    b.HasOne("Aguacongas.IdentityServer.EntityFramework.Store.SchemeDefinition", null)
+                    b.HasOne("Aguacongas.IdentityServer.Store.Entity.ExternalProvider", null)
                         .WithMany("ClaimTransformations")
                         .HasForeignKey("Scheme")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1155,6 +1266,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("IdentityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Identity");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.IdentityLocalizedResource", b =>
@@ -1164,6 +1277,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("IdentityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Identity");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.IdentityProperty", b =>
@@ -1173,6 +1288,8 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("IdentityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Identity");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.LocalizedResource", b =>
@@ -1182,6 +1299,86 @@ namespace Aguacongas.TheIdServer.Sqlite.Migrations.ConfigurationDb
                         .HasForeignKey("CultureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Culture");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.RelyingPartyClaimMapping", b =>
+                {
+                    b.HasOne("Aguacongas.IdentityServer.Store.Entity.RelyingParty", "RelyingParty")
+                        .WithMany("ClaimMappings")
+                        .HasForeignKey("RelyingPartyId");
+
+                    b.Navigation("RelyingParty");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiScope", b =>
+                {
+                    b.Navigation("Apis");
+
+                    b.Navigation("ApiScopeClaims");
+
+                    b.Navigation("Properties");
+
+                    b.Navigation("Resources");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.Client", b =>
+                {
+                    b.Navigation("AllowedGrantTypes");
+
+                    b.Navigation("AllowedScopes");
+
+                    b.Navigation("ClientClaims");
+
+                    b.Navigation("ClientSecrets");
+
+                    b.Navigation("IdentityProviderRestrictions");
+
+                    b.Navigation("Properties");
+
+                    b.Navigation("RedirectUris");
+
+                    b.Navigation("Resources");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.Culture", b =>
+                {
+                    b.Navigation("Resources");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ExternalProvider", b =>
+                {
+                    b.Navigation("ClaimTransformations");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.IdentityResource", b =>
+                {
+                    b.Navigation("IdentityClaims");
+
+                    b.Navigation("Properties");
+
+                    b.Navigation("Resources");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ProtectResource", b =>
+                {
+                    b.Navigation("ApiClaims");
+
+                    b.Navigation("ApiScopes");
+
+                    b.Navigation("Properties");
+
+                    b.Navigation("Resources");
+
+                    b.Navigation("Secrets");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.RelyingParty", b =>
+                {
+                    b.Navigation("ClaimMappings");
+
+                    b.Navigation("Clients");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components.Web;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -27,7 +29,7 @@ namespace Aguacongas.TheIdServer.BlazorApp.Components
         private void SetPathsCulture()
         {
             var settings = _options.Value;
-            settings.RemoteRegisterPath = SetCultureInPath(settings.RemoteProfilePath);
+            settings.RemoteRegisterPath = SetCultureInPath(settings.RemoteRegisterPath);
             settings.RemoteProfilePath = SetCultureInPath(settings.RemoteProfilePath);
             var oidcSettings = _oidcOptions.Value;
             oidcSettings.Authority = SetCultureInPath(oidcSettings.Authority);
@@ -60,10 +62,10 @@ namespace Aguacongas.TheIdServer.BlazorApp.Components
             SetPathsCulture();
         }
 
-        private string ResetCultureInPath(string path)
-            => path != null ? path.Split('?')[0] : null;
+        private static string ResetCultureInPath(string path)
+            => path?.Split('?')[0];
 
         private string SetCultureInPath(string path)
-            => path != null ? $"{path}?culture={_selectedCulture}" : null;
+            => path != null ? $"{ResetCultureInPath(path)}?culture={_selectedCulture}" : null;
     }
 }

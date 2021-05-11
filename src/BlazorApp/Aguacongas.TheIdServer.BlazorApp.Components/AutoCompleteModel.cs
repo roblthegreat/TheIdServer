@@ -1,4 +1,6 @@
-﻿using Aguacongas.TheIdServer.BlazorApp.Infrastructure.Services;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.TheIdServer.BlazorApp.Infrastructure.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
@@ -56,7 +58,7 @@ namespace Aguacongas.TheIdServer.BlazorApp.Components
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
-            _fieldIdentifier = base.FieldIdentifier;
+            _fieldIdentifier = FieldIdentifier;
         }
 
         protected override void OnInitialized()
@@ -89,9 +91,9 @@ namespace Aguacongas.TheIdServer.BlazorApp.Components
                         {
                             return;
                         }
-                        FilteredValues = await GetFilteredValues(CurrentValueAsString)
+                        FilteredValues = await GetFilteredValues(CurrentValueAsString, token)
                             .ConfigureAwait(false);
-                       await JSRuntime.InvokeVoidAsync("bootstrapInteropt.showDropDownMenu", Id);
+                       await JSRuntime.InvokeVoidAsync("bootstrapInteropt.showDropDownMenu", token, Id);
                        await InvokeAsync(StateHasChanged).ConfigureAwait(false);
                     }, TaskScheduler.Default);
         }
@@ -106,7 +108,7 @@ namespace Aguacongas.TheIdServer.BlazorApp.Components
 
         protected abstract void SetValue(string inputValue);
 
-        protected abstract Task<IEnumerable<string>> GetFilteredValues(string term);
+        protected abstract Task<IEnumerable<string>> GetFilteredValues(string term, CancellationToken cancellationToken);
 
         private CancellationTokenSource _cancellationTokenSource;
 

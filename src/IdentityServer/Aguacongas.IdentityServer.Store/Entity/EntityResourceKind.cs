@@ -1,4 +1,6 @@
-﻿namespace Aguacongas.IdentityServer.Store.Entity
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+namespace Aguacongas.IdentityServer.Store.Entity
 {
     /// <summary>
     /// Kin of entity resource
@@ -13,9 +15,21 @@
         /// The description
         /// </summary>
         Description,
+        /// <summary>
+        /// The client URI
+        /// </summary>
         ClientUri,
+        /// <summary>
+        /// The logo URI
+        /// </summary>
         LogoUri,
+        /// <summary>
+        /// The policy URI
+        /// </summary>
         PolicyUri,
+        /// <summary>
+        /// The tos URI
+        /// </summary>
         TosUri
     }
 }

@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Store;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Store;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using System;
@@ -30,7 +32,7 @@ namespace Aguacongas.IdentityServer.Admin.Http.Store
             BaseUri = $"/{typeof(T).Name}".ToLowerInvariant();
         }
 
-        public async Task<T> GetAsync(string id, GetRequest request, CancellationToken cancellationToken = default)
+        public virtual async Task<T> GetAsync(string id, GetRequest request, CancellationToken cancellationToken = default)
         {
             var httpClient = await HttpClientFactory
                 .ConfigureAwait(false);
@@ -48,7 +50,7 @@ namespace Aguacongas.IdentityServer.Admin.Http.Store
             }
         }
 
-        public async Task<PageResponse<T>> GetAsync(PageRequest request, CancellationToken cancellationToken = default)
+        public virtual async Task<PageResponse<T>> GetAsync(PageRequest request, CancellationToken cancellationToken = default)
         {
             request = request ?? new PageRequest();
 

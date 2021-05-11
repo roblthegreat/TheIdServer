@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.TheIdServer.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using Xunit;
@@ -15,9 +18,9 @@ namespace Aguacongas.TheIdServer.Identity.Test.Extensions
                 .AddTransient<HttpClientHandler>()
                 .AddIdentityProviderStore()
                 .AddConfigurationHttpStores(options => options.ApiUrl = "http://exemple.com")
-                .AddOperationalHttpStores()
+                .AddOperationalStores()
                 .AddIdentity<IdentityUser, IdentityRole>()
-                .AddTheIdServerStores(options => options.ApiUrl = "http://exemple.com");
+                .AddTheIdServerStores();
 
             var userStore = services.BuildServiceProvider().GetService<IUserStore<IdentityUser>>();
             Assert.NotNull(userStore);
@@ -31,9 +34,9 @@ namespace Aguacongas.TheIdServer.Identity.Test.Extensions
                 .AddTransient<HttpClientHandler>()
                 .AddIdentityProviderStore()
                 .AddConfigurationHttpStores(options => options.ApiUrl = "http://exemple.com")
-                .AddOperationalHttpStores()
+                .AddOperationalStores()
                 .AddIdentityCore<IdentityUser>()
-                .AddTheIdServerStores(options => options.ApiUrl = "http://exemple.com");
+                .AddTheIdServerStores();
 
 
             var userOnlyStore = services.BuildServiceProvider().GetService<IUserStore<IdentityUser>>();

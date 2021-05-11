@@ -1,5 +1,5 @@
-﻿// Project: aguacongas/Identity.Firebase
-// Copyright (c) 2020 @Olivier Lefebvre
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
 using Microsoft.AspNetCore.Identity;
 
 namespace Aguacongas.TheIdServer.Identity.IntegrationTest

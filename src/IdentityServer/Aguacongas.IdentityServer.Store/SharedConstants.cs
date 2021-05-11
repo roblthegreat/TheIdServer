@@ -1,4 +1,6 @@
-﻿namespace Aguacongas.IdentityServer.Store
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+namespace Aguacongas.IdentityServer.Store
 {
     /// <summary>
     /// Contains shared constants.

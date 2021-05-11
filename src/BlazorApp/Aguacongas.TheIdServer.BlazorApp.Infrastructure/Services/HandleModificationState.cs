@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Store.Entity;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Store.Entity;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -100,7 +102,8 @@ namespace Aguacongas.TheIdServer.BlazorApp.Services
             {
                 _logger.LogDebug($"Add update modification for entity {entityType.Name} {entity.Id}");
                 modifications.Add(entity, ModificationKind.Update);
-            }
+                OnStateChange?.Invoke(ModificationKind.Update, entity);
+            }            
         }
     }
 }

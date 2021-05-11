@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.TheIdServer.BlazorApp.Models;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using System.Diagnostics.CodeAnalysis;
@@ -8,15 +12,20 @@ using System.Threading.Tasks;
 
 namespace Aguacongas.TheIdServer.BlazorApp
 {
-    [SuppressMessage("Design", "CA1052:Static holder types should be Static or NotInheritable", Justification = "entry point")]
     [SuppressMessage("Major Code Smell", "S1118:Utility classes should not have public constructors", Justification = "<Pending>")]
     public class Program
     {
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("app");
             builder.AddTheIdServerApp();
+            var configuration = builder.Configuration;
+            var settings = configuration.Get<Settings>();
+            if (!settings.Prerendered)
+            {
+                builder.RootComponents.Add<App>("app");
+            }
+            
             var host = builder.Build();
             var runtime = host.Services.GetRequiredService<IJSRuntime>();
             var cultureName = await runtime.InvokeAsync<string>("localStorage.getItem", "culture").ConfigureAwait(false);

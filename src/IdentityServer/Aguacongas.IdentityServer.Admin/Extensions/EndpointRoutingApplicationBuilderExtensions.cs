@@ -1,14 +1,18 @@
-﻿
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
 using Aguacongas.IdentityServer.Admin;
 using Aguacongas.IdentityServer.Store;
 using Aguacongas.IdentityServer.Store.Entity;
 using IdentityModel;
+using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -108,14 +112,19 @@ namespace Microsoft.AspNetCore.Builder
                 return;
             }
 
+            var logger = context.RequestServices.GetRequiredService<ILogger<HttpContext>>();            
             if (context.User.Identity.IsAuthenticated)
             {
+                using var authscope = logger.BeginScope(new Dictionary<string, object> { ["User"] = context.User.GetDisplayName() });
                 await next().ConfigureAwait(false);
                 return;
             }
 
             var result = await context.AuthenticateAsync(authicationScheme)
                     .ConfigureAwait(false);
+
+            context.User = result.Principal;
+            using var scope = logger.BeginScope(new Dictionary<string, object> { ["User"] = context.User.GetDisplayName() });
 
             if (!result.Succeeded && 
                 path.StartsWithSegments("/register", StringComparison.OrdinalIgnoreCase) &&
@@ -125,11 +134,8 @@ namespace Microsoft.AspNetCore.Builder
                 return;
             }
 
-            context.User = result.Principal;
 
             await next().ConfigureAwait(false);
-
-
         }
 
         private static async Task SetForbiddenResponse(HttpContext context)
@@ -169,7 +175,13 @@ namespace Microsoft.AspNetCore.Builder
                 }
 
                 // get token for registration end point
-                var token = authorizationHeaderValue.First().Split(' ')[1];
+                if (!Guid.TryParse(authorizationHeaderValue.First().Split(' ')[1], out Guid token))
+                {
+                    // The token is not au GUID
+                    await SetForbiddenResponse(context).ConfigureAwait(false);
+                    return false;
+                }
+
                 var store = context.RequestServices.GetRequiredService<IAdminStore<Client>>();
                 var clientResponse = await store.GetAsync(new PageRequest
                 {
@@ -177,6 +189,7 @@ namespace Microsoft.AspNetCore.Builder
                     Select = nameof(Client.Id),
                     Take = 1
                 }).ConfigureAwait(false);
+
                 var client = clientResponse.Items.FirstOrDefault();
                 if (client == null || path.Value.EndsWith(client.Id))
                 {

@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Store;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Store;
 using Aguacongas.IdentityServer.Store.Entity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -77,7 +79,7 @@ namespace Aguacongas.IdentityServer.Admin.Services
             {
                 try
                 {
-                    await Task.Delay(_interval, cancellationToken);
+                    await Task.Delay(_interval, cancellationToken).ConfigureAwait(false);
                 }
                 catch (TaskCanceledException)
                 {
@@ -130,7 +132,7 @@ namespace Aguacongas.IdentityServer.Admin.Services
             }
         }
 
-        private async Task RemoveExpiredTokensAsync(IAdminStore store, IEnumerable<IGrant> items, CancellationToken cancellationToken)
+        private static async Task RemoveExpiredTokensAsync(IAdminStore store, IEnumerable<IGrant> items, CancellationToken cancellationToken)
         {
             foreach (var token in items)
             {

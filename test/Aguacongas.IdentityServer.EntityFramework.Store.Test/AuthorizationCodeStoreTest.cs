@@ -1,8 +1,14 @@
-﻿using Aguacongas.IdentityServer.Store.Entity;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Abstractions;
+using Aguacongas.IdentityServer.Store;
+using Aguacongas.IdentityServer.Store.Entity;
 using IdentityModel;
-using IdentityServer4.Stores.Serialization;
+using IdentityServer4.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -16,13 +22,15 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store.Test
         public void Constructor_should_validate_parameters()
         {
             var builder = new ServiceCollection()
+                .AddLogging()
+                .Configure<MemoryCacheOptions>(options => { })
+                .Configure<IdentityServer4.Configuration.IdentityServerOptions>(options => { })
+                .AddTransient(p => p.GetRequiredService<IOptions<IdentityServer4.Configuration.IdentityServerOptions>>().Value)
+                .AddScoped(typeof(IFlushableCache<>), typeof(FlushableCache<>))
                 .AddOperationalEntityFrameworkStores(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()))
                 .BuildServiceProvider();
-            Assert.Throws<ArgumentNullException>(() => new AuthorizationCodeStore(null, null, null));
-            Assert.Throws<ArgumentNullException>(() => new AuthorizationCodeStore(builder.GetRequiredService<OperationalDbContext>(), null, null));
-            Assert.Throws<ArgumentNullException>(() =>
-                new DeviceFlowStore(builder.GetRequiredService<OperationalDbContext>(),
-                builder.GetRequiredService<IPersistentGrantSerializer>(), null));
+            Assert.Throws<ArgumentNullException>(() => new AuthorizationCodeStore(null, null));
+            Assert.Throws<ArgumentNullException>(() => new AuthorizationCodeStore(builder.GetRequiredService<IAdminStore<AuthorizationCode>>(), null));
         }
 
         [Fact]
@@ -68,7 +76,6 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store.Test
 
                 Assert.Null(await context.DeviceCodes.FirstOrDefaultAsync(d => d.Id == id));
             }
-
         }
 
         [Fact]
@@ -93,6 +100,10 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store.Test
         {
             var provider = new ServiceCollection()
                 .AddLogging()
+                .Configure<MemoryCacheOptions>(options => { })
+                .Configure<IdentityServer4.Configuration.IdentityServerOptions>(options => { })
+                .AddTransient(p => p.GetRequiredService<IOptions<IdentityServer4.Configuration.IdentityServerOptions>>().Value)
+                .AddScoped(typeof(IFlushableCache<>), typeof(FlushableCache<>))
                 .AddOperationalEntityFrameworkStores(options =>
                     options.UseInMemoryDatabase(GenerateId()))
                 .BuildServiceProvider();

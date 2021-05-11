@@ -15,44 +15,9 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.6")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
-
-            modelBuilder.Entity("Aguacongas.IdentityServer.EntityFramework.Store.SchemeDefinition", b =>
-                {
-                    b.Property<string>("Scheme")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("DisplayName")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("MapDefaultOutboundClaimType")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("SerializedHandlerType")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SerializedOptions")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("StoreClaims")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("Scheme");
-
-                    b.ToTable("Providers");
-                });
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiApiScope", b =>
                 {
@@ -99,8 +64,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.HasKey("Id");
 
@@ -156,15 +121,15 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Value")
-                        .HasColumnType("character varying(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.HasKey("Id");
 
@@ -183,13 +148,13 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
-                        .HasColumnType("character varying(1000)")
-                        .HasMaxLength(1000);
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<bool>("Emphasize")
                         .HasColumnType("boolean");
@@ -228,8 +193,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.HasKey("Id");
 
@@ -285,15 +250,15 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Value")
-                        .HasColumnType("character varying(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.HasKey("Id");
 
@@ -316,8 +281,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
-                        .HasColumnType("character varying(1000)")
-                        .HasMaxLength(1000);
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
 
                     b.Property<DateTime?>("Expiration")
                         .HasColumnType("timestamp without time zone");
@@ -327,8 +292,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -380,20 +345,20 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasColumnType("boolean");
 
                     b.Property<string>("BackChannelLogoutUri")
-                        .HasColumnType("character varying(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<string>("ClientClaimsPrefix")
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<string>("ClientName")
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("ClientUri")
-                        .HasColumnType("character varying(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<int?>("ConsentLifetime")
                         .HasColumnType("integer");
@@ -402,8 +367,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
-                        .HasColumnType("character varying(1000)")
-                        .HasMaxLength(1000);
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
 
                     b.Property<int>("DeviceCodeLifetime")
                         .HasColumnType("integer");
@@ -418,8 +383,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasColumnType("boolean");
 
                     b.Property<string>("FrontChannelLogoutUri")
-                        .HasColumnType("character varying(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<int>("IdentityTokenLifetime")
                         .HasColumnType("integer");
@@ -428,8 +393,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasColumnType("boolean");
 
                     b.Property<string>("LogoUri")
-                        .HasColumnType("character varying(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("timestamp without time zone");
@@ -438,16 +403,16 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasColumnType("boolean");
 
                     b.Property<string>("PairWiseSubjectSalt")
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("PolicyUri")
                         .HasColumnType("text");
 
                     b.Property<string>("ProtocolType")
                         .IsRequired()
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<int>("RefreshTokenExpiration")
                         .HasColumnType("integer");
@@ -457,6 +422,9 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
 
                     b.Property<Guid?>("RegistrationToken")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("RelyingPartyId")
+                        .HasColumnType("text");
 
                     b.Property<bool>("RequireClientSecret")
                         .HasColumnType("boolean");
@@ -477,13 +445,15 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasColumnType("boolean");
 
                     b.Property<string>("UserCodeType")
-                        .HasColumnType("character varying(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<int?>("UserSsoLifetime")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RelyingPartyId");
 
                     b.ToTable("Clients");
                 });
@@ -505,8 +475,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
@@ -532,8 +502,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
 
                     b.Property<string>("GrantType")
                         .IsRequired()
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("timestamp without time zone");
@@ -563,8 +533,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
 
                     b.Property<string>("Provider")
                         .IsRequired()
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
 
@@ -620,15 +590,15 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Value")
-                        .HasColumnType("character varying(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.HasKey("Id");
 
@@ -655,8 +625,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
 
                     b.Property<string>("Scope")
                         .IsRequired()
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
 
@@ -679,8 +649,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
-                        .HasColumnType("character varying(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<DateTime?>("Expiration")
                         .HasColumnType("timestamp without time zone");
@@ -690,8 +660,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -723,13 +693,13 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("SanetizedCorsUri")
-                        .HasColumnType("character varying(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<string>("Uri")
                         .IsRequired()
-                        .HasColumnType("character varying(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.HasKey("Id");
 
@@ -758,7 +728,7 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         new
                         {
                             Id = "en",
-                            CreatedAt = new DateTime(2020, 8, 13, 14, 4, 47, 168, DateTimeKind.Utc).AddTicks(4499)
+                            CreatedAt = new DateTime(2021, 5, 3, 16, 17, 25, 819, DateTimeKind.Utc).AddTicks(8476)
                         });
                 });
 
@@ -796,6 +766,38 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                     b.ToTable("ExternalClaimTransformations");
                 });
 
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ExternalProvider", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text")
+                        .HasColumnName("Scheme");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("MapDefaultOutboundClaimType")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("SerializedHandlerType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SerializedOptions")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("StoreClaims")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Providers");
+                });
+
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.IdentityClaim", b =>
                 {
                     b.Property<string>("Id")
@@ -812,8 +814,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Type")
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.HasKey("Id");
 
@@ -869,15 +871,15 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Value")
-                        .HasColumnType("character varying(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.HasKey("Id");
 
@@ -896,12 +898,12 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
-                        .HasColumnType("character varying(1000)")
-                        .HasMaxLength(1000);
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
 
                     b.Property<string>("DisplayName")
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<bool>("Emphasize")
                         .HasColumnType("boolean");
@@ -970,13 +972,13 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
-                        .HasColumnType("character varying(1000)")
-                        .HasMaxLength(1000);
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("character varying(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<bool>("Enabled")
                         .HasColumnType("boolean");
@@ -992,6 +994,72 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                     b.ToTable("Apis");
                 });
 
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.RelyingParty", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DigestAlgorithm")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("EncryptionCertificate")
+                        .HasColumnType("bytea");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("SamlNameIdentifierFormat")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SignatureAlgorithm")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TokenType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RelyingParties");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.RelyingPartyClaimMapping", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("FromClaimType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("RelyingPartyId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ToClaimType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RelyingPartyId");
+
+                    b.ToTable("RelyingPartyClaimMappings");
+                });
+
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiApiScope", b =>
                 {
                     b.HasOne("Aguacongas.IdentityServer.Store.Entity.ProtectResource", "Api")
@@ -1005,6 +1073,10 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ApiScopeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Api");
+
+                    b.Navigation("ApiScope");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiClaim", b =>
@@ -1014,6 +1086,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ApiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Api");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiLocalizedResource", b =>
@@ -1023,6 +1097,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ApiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Api");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiProperty", b =>
@@ -1032,6 +1108,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ApiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Api");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiScopeClaim", b =>
@@ -1041,6 +1119,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ApiScopeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ApiScope");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiScopeLocalizedResource", b =>
@@ -1050,6 +1130,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ApiScopeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ApiScope");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiScopeProperty", b =>
@@ -1059,6 +1141,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ApiScopeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ApiScope");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiSecret", b =>
@@ -1068,6 +1152,17 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ApiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Api");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.Client", b =>
+                {
+                    b.HasOne("Aguacongas.IdentityServer.Store.Entity.RelyingParty", "RelyingParty")
+                        .WithMany("Clients")
+                        .HasForeignKey("RelyingPartyId");
+
+                    b.Navigation("RelyingParty");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientClaim", b =>
@@ -1077,6 +1172,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientGrantType", b =>
@@ -1086,6 +1183,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientIdpRestriction", b =>
@@ -1095,6 +1194,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientLocalizedResource", b =>
@@ -1104,6 +1205,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientProperty", b =>
@@ -1113,6 +1216,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientScope", b =>
@@ -1122,6 +1227,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientSecret", b =>
@@ -1131,6 +1238,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ClientUri", b =>
@@ -1140,11 +1249,13 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ExternalClaimTransformation", b =>
                 {
-                    b.HasOne("Aguacongas.IdentityServer.EntityFramework.Store.SchemeDefinition", null)
+                    b.HasOne("Aguacongas.IdentityServer.Store.Entity.ExternalProvider", null)
                         .WithMany("ClaimTransformations")
                         .HasForeignKey("Scheme")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1158,6 +1269,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("IdentityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Identity");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.IdentityLocalizedResource", b =>
@@ -1167,6 +1280,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("IdentityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Identity");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.IdentityProperty", b =>
@@ -1176,6 +1291,8 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("IdentityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Identity");
                 });
 
             modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.LocalizedResource", b =>
@@ -1185,6 +1302,86 @@ namespace Aguacongas.TheIdServer.PostgreSQL.Migrations.ConfigurationDb
                         .HasForeignKey("CultureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Culture");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.RelyingPartyClaimMapping", b =>
+                {
+                    b.HasOne("Aguacongas.IdentityServer.Store.Entity.RelyingParty", "RelyingParty")
+                        .WithMany("ClaimMappings")
+                        .HasForeignKey("RelyingPartyId");
+
+                    b.Navigation("RelyingParty");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ApiScope", b =>
+                {
+                    b.Navigation("Apis");
+
+                    b.Navigation("ApiScopeClaims");
+
+                    b.Navigation("Properties");
+
+                    b.Navigation("Resources");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.Client", b =>
+                {
+                    b.Navigation("AllowedGrantTypes");
+
+                    b.Navigation("AllowedScopes");
+
+                    b.Navigation("ClientClaims");
+
+                    b.Navigation("ClientSecrets");
+
+                    b.Navigation("IdentityProviderRestrictions");
+
+                    b.Navigation("Properties");
+
+                    b.Navigation("RedirectUris");
+
+                    b.Navigation("Resources");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.Culture", b =>
+                {
+                    b.Navigation("Resources");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ExternalProvider", b =>
+                {
+                    b.Navigation("ClaimTransformations");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.IdentityResource", b =>
+                {
+                    b.Navigation("IdentityClaims");
+
+                    b.Navigation("Properties");
+
+                    b.Navigation("Resources");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.ProtectResource", b =>
+                {
+                    b.Navigation("ApiClaims");
+
+                    b.Navigation("ApiScopes");
+
+                    b.Navigation("Properties");
+
+                    b.Navigation("Resources");
+
+                    b.Navigation("Secrets");
+                });
+
+            modelBuilder.Entity("Aguacongas.IdentityServer.Store.Entity.RelyingParty", b =>
+                {
+                    b.Navigation("ClaimMappings");
+
+                    b.Navigation("Clients");
                 });
 #pragma warning restore 612, 618
         }

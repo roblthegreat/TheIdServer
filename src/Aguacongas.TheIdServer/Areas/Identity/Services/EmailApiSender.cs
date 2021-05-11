@@ -1,5 +1,6 @@
-﻿using Aguacongas.IdentityServer.Admin.Models;
-using Aguacongas.IdentityServer.Http.Store;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Admin.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 using System;

@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Store.Entity;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Store.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,7 @@ namespace Aguacongas.IdentityServer.Admin
             var assembly = typeof(IEntityId).GetTypeInfo().Assembly;
             var entyTypeList = assembly.GetTypes().Where(t => t.IsClass &&
                 !t.IsAbstract &&
+                t.Name != nameof(Key) &&
                 t.GetInterface("IEntityId") != null);
             return entyTypeList;
         }

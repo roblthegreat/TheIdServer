@@ -1,5 +1,5 @@
-﻿// Project: aguacongas/Identity.Firebase
-// Copyright (c) 2020 @Olivier Lefebvre
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
 using Aguacongas.IdentityServer.Store;
 using Aguacongas.IdentityServer.Store.Entity;
 using Microsoft.AspNetCore.Identity;
@@ -191,7 +191,7 @@ namespace Aguacongas.TheIdServer.Identity
             {
                 Filter = $"{nameof(Role.Id)} eq '{roleId}'"
             }, cancellationToken).ConfigureAwait(false);
-            if (response.Count == 1)
+            if (response.Items.Any())
             {
                 return response.Items.First().ToIdentityRole<TRole>();
             }
@@ -214,7 +214,7 @@ namespace Aguacongas.TheIdServer.Identity
                 Filter = $"{nameof(Role.NormalizedName)} eq '{normalizedRoleName}'"
             }, cancellationToken).ConfigureAwait(false);
 
-            if (response.Count == 1)
+            if (response.Items.Any())
             {
                 return response.Items.First().ToIdentityRole<TRole>();
             }
@@ -270,7 +270,11 @@ namespace Aguacongas.TheIdServer.Identity
         /// Dispose the stores
         /// </summary>
         [SuppressMessage("Blocker Code Smell", "S2953:Methods named \"Dispose\" should implement \"IDisposable.Dispose\"", Justification = "<Pending>")]
-        public void Dispose() => _disposed = true;
+        public void Dispose()
+        {
+            _disposed = true;
+            GC.SuppressFinalize(this);
+        }
 
         /// <summary>
         /// Get the claims associated with the specified <paramref name="role"/> as an asynchronous operation.
@@ -325,13 +329,10 @@ namespace Aguacongas.TheIdServer.Identity
                 Filter = $"{nameof(RoleClaim.RoleId)} eq '{role.Id}' and {nameof(RoleClaim.ClaimType)} eq '{claim.Type}' and {nameof(RoleClaim.ClaimValue)} eq '{claim.Value}'"
             }, cancellationToken).ConfigureAwait(false);
 
-            var taskList = new List<Task>(response.Count);
             foreach(var roleClaim in response.Items)
             {
-                taskList.Add(_claimStore.DeleteAsync(roleClaim.Id.ToString(), cancellationToken));
+                await _claimStore.DeleteAsync(roleClaim.Id.ToString(), cancellationToken).ConfigureAwait(false);
             }
-
-            await Task.WhenAll(taskList).ConfigureAwait(false);
         }
 
         /// <summary>

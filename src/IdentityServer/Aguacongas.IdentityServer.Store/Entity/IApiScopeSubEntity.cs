@@ -1,4 +1,6 @@
-﻿namespace Aguacongas.IdentityServer.Store.Entity
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+namespace Aguacongas.IdentityServer.Store.Entity
 {
     /// <summary>
     /// Api sub entity interface

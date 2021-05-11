@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Newtonsoft.Json;
 
 namespace Aguacongas.IdentityServer.Admin.Models
 {

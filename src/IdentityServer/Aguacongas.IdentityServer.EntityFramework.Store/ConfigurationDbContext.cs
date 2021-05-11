@@ -1,5 +1,9 @@
-﻿using Aguacongas.IdentityServer.Store.Entity;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.AspNetCore.Authentication;
+using Aguacongas.IdentityServer.Store.Entity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
@@ -19,6 +23,8 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store
 
         public virtual DbSet<ClientGrantType> ClientGrantTypes { get; set; }
 
+        public virtual DbSet<ClientIdpRestriction> ClientIdpRestriction { get; set; }
+
         public virtual DbSet<ClientProperty> ClientProperties { get; set; }
 
         public virtual DbSet<ClientUri> ClientUris { get; set; }
@@ -33,7 +39,13 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store
 
         public virtual DbSet<ApiScope> ApiScopes { get; set; }
 
+        public virtual DbSet<ApiProperty> ApiProperty { get; set; }
+
+        public virtual DbSet<ApiApiScope> ApiApiScope { get; set; }
+
         public virtual DbSet<ApiScopeClaim> ApiScopeClaims { get; set; }
+
+        public virtual DbSet<ApiScopeProperty> ApiScopeProperty { get; set; }
 
         public virtual DbSet<ApiSecret> ApiSecrets { get; set; }
 
@@ -43,7 +55,7 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store
 
         public virtual DbSet<IdentityProperty> IdentityProperties { get; set; }
 
-        public virtual DbSet<SchemeDefinition> Providers { get; set; }
+        public virtual DbSet<ExternalProvider> Providers { get; set; }
 
         public virtual DbSet<ExternalClaimTransformation> ExternalClaimTransformations { get; set; }
 
@@ -58,6 +70,10 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store
         public virtual DbSet<ClientLocalizedResource> ClientLocalizedResources { get; set; }
 
         public virtual DbSet<IdentityLocalizedResource> IdentityLocalizedResources { get; set; }
+
+        public virtual DbSet<RelyingParty> RelyingParties { get; set; }
+
+        public virtual DbSet<RelyingPartyClaimMapping> RelyingPartyClaimMappings { get; set; }
 
 
         [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Cannot be null")]
@@ -97,7 +113,7 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store
                 .HasIndex(e => new { e.IdentityId, e.Type })
                 .IsUnique(true);
             modelBuilder.Entity<ExternalClaimTransformation>()
-                .HasOne<SchemeDefinition>()
+                .HasOne<ExternalProvider>()
                 .WithMany(e => e.ClaimTransformations)
                 .HasForeignKey(e => e.Scheme);
             modelBuilder.Entity<ExternalClaimTransformation>()
@@ -128,21 +144,15 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store
                 .IsRequired(true)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<SchemeDefinition>(b =>
-            {
-                b.Ignore(p => p.Id)
-                  .Ignore(p => p.Options)
-                  .Ignore(p => p.HandlerType)
-                  .HasKey(p => p.Scheme);
-                b.Property(p => p.ConcurrencyStamp).IsConcurrencyToken();
-            });
-
             var defaultCulture = new Culture
             {
                 Id = "en",
                 CreatedAt = DateTime.UtcNow
             };
             modelBuilder.Entity<Culture>().HasData(defaultCulture);
+
+            modelBuilder.Entity<ExternalProvider>().Property(e => e.Id).HasColumnName(nameof(SchemeDefinitionBase.Scheme));
+            modelBuilder.Entity<ExternalProvider>().Ignore(e => e.KindName);
 
             base.OnModelCreating(modelBuilder);
         }

@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.EntityFramework.Store;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.EntityFramework.Store;
 using Aguacongas.IdentityServer.Store.Entity;
 using System.Threading.Tasks;
 using Xunit;
@@ -9,7 +11,7 @@ namespace Aguacongas.TheIdServer.IntegrationTest.BlazorApp.Pages
     [Collection("api collection")]
     public class ApiScopesTest : EntitiesPageTestBase<ApiScope>
     {
-        public override string Entities => "scopes";
+        public override string Entities => "apiscopes";
         public ApiScopesTest(ApiFixture fixture, ITestOutputHelper testOutputHelper)
             : base (fixture, testOutputHelper)
         {

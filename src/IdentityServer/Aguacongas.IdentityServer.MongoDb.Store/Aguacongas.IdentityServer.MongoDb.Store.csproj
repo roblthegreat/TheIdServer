@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<Authors>Olivier Lefebvre</Authors>
+		<Description>IdentityServer4 MongoDb stores implementation for TheIdServer.</Description>
+		<Copyright>Copyright (c) 2021 @Olivier Lefebvre</Copyright>
+		<PackageProjectUrl>https://github.com/Aguafrommars/TheIdServer/tree/master/src/IdentityServer/Aguacongas.IdentityServer.MongoDb.Store</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/aguacongas/TheIdServer</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>theidserver;identityserver4;administration;mongodb</PackageTags>
+		<PackageIcon>package-icon.png</PackageIcon>
+		<PackageLicense>https://github.com/aguacongas/TheIdServer/blob/master/LICENSE</PackageLicense>
+		<CodeAnalysisRuleSet>..\..\..\.sonarlint\aguacongas_theidservercsharp.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="..\..\..\.sonarlint\aguacongas_theidserver\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="package-icon.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MongoDB.Driver" Version="2.12.3" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Aguacongas.TheIdServer.Authentication\Aguacongas.TheIdServer.Authentication.csproj" />
+		<ProjectReference Include="..\Aguacongas.IdentityServer\Aguacongas.IdentityServer.csproj" />
+	</ItemGroup>
+
+</Project>

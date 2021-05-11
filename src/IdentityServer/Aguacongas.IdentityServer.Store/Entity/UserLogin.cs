@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Aguacongas.IdentityServer.Store.Entity
 {
@@ -46,5 +49,13 @@ namespace Aguacongas.IdentityServer.Store.Entity
         /// The display name of the provider.
         /// </value>
         public string ProviderDisplayName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user.
+        /// </summary>
+        /// <value>
+        /// The user.
+        /// </value>
+        public virtual User User { get; set; }
     }
 }

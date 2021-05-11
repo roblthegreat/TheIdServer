@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
 namespace Aguacongas.TheIdServer.BlazorApp.Models
@@ -10,6 +12,7 @@ namespace Aguacongas.TheIdServer.BlazorApp.Models
 
         public string AdministratorEmail { get; set; }
         public string WelcomeContenUrl { get;  set; }
+        public bool Prerendered { get; set; }
     }
 
     public class LoggingOptions

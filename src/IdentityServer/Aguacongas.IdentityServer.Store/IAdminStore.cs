@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Aguacongas.IdentityServer.Store

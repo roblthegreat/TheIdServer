@@ -1,13 +1,16 @@
 ﻿@inject IStringLocalizerAsync<NavMenu> Localizer
 
-<div class="top-row pl-4 navbar navbar-light">
-    <a class="navbar-brand" href="">TheIdServer Admin</a>
+<div class="top-row pl-4 navbar navbar-light sticky-top">
+    <a class="navbar-brand" href="">
+        <img class="logo" src="/logo.png" />
+        <span>TheIdServer Admin</span>
+    </a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
 </div>
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
+<div class="@NavMenuCssClass mb-2" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">                
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="home" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> @Localizer["Home"]
@@ -31,11 +34,11 @@
         <li class="nav-text px-4">resources</li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="apis">
-                <span class="oi oi-key" aria-hidden="true"></span> @Localizer["Apis"]
+                <span class="oi oi-wrench" aria-hidden="true"></span> @Localizer["Apis"]
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="scopes">
+            <NavLink class="nav-link" href="apiscopes">
                 <span class="oi oi-shield" aria-hidden="true"></span> @Localizer["Scopes"]
             </NavLink>
         </li>
@@ -45,7 +48,12 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="providers">
+            <NavLink class="nav-link" href="relyingparties">
+                <span class="oi oi-aperture" aria-hidden="true"></span> @Localizer["Relying parties"]
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="externalproviders">
                 <span class="oi oi-cloud-upload" aria-hidden="true"></span> @Localizer["Providers"]
             </NavLink>
         </li>
@@ -54,14 +62,22 @@
                 <span class="oi oi-globe" aria-hidden="true"></span> @Localizer["Cultures"]
             </NavLink>
         </li>
+        <li class="nav-text px-4">misc</li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="import">
                 <span class="oi oi-arrow-circle-bottom" aria-hidden="true"></span> @Localizer["Import"]
             </NavLink>
         </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="keys">
+                <span class="oi oi-key" aria-hidden="true"></span> @Localizer["Keys"]
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 navbar-toggler">
+            <LoginDisplay />
+        </li>
     </ul>
-</div>
-
-<div class="fixed-bottom">
-    <a class="px-3" href="https://github.com/aguacongas/TheIdServer/blob/master/README.md" target="_blank">About</a>
+    <div class="fixed-bottom bg-light col-1">
+        <a class="px-3" href="https://github.com/aguacongas/TheIdServer/blob/master/README.md" target="_blank">@Localizer["About"]</a>
+    </div>
 </div>

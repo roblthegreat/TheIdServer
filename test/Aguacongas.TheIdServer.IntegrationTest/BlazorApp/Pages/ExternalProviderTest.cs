@@ -1,10 +1,12 @@
-﻿using Aguacongas.IdentityServer.EntityFramework.Store;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.EntityFramework.Store;
 using Aguacongas.IdentityServer.Store;
+using Aguacongas.IdentityServer.Store.Entity;
 using Aguacongas.TheIdServer.BlazorApp;
 using Microsoft.AspNetCore.Components.Testing;
 using Microsoft.EntityFrameworkCore;
 using RichardSzalay.MockHttp;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -72,7 +74,7 @@ namespace Aguacongas.TheIdServer.IntegrationTest.BlazorApp.Pages
 
             await DbActionAsync<ConfigurationDbContext>(async context =>
             {
-                var provider = await context.Providers.FirstOrDefaultAsync(r => r.Scheme == providerName);
+                var provider = await context.Providers.FirstOrDefaultAsync(r => r.Id == providerName);
                 Assert.NotNull(provider);
             });
         }
@@ -136,7 +138,7 @@ namespace Aguacongas.TheIdServer.IntegrationTest.BlazorApp.Pages
 
             await DbActionAsync<ConfigurationDbContext>(async context =>
             {
-                var provider = await context.Providers.FirstOrDefaultAsync(p => p.Scheme == providerId);
+                var provider = await context.Providers.FirstOrDefaultAsync(p => p.Id == providerId);
                 Assert.Null(provider);
             });
         }
@@ -144,10 +146,10 @@ namespace Aguacongas.TheIdServer.IntegrationTest.BlazorApp.Pages
         [Fact]
         public async Task ClickTransformationButtons_should_not_throw()
         {
-            var apiId = await CreateProvider();
+            var providerId = await CreateProvider();
             CreateTestHost("Alice Smith",
                          SharedConstants.WRITER,
-                         apiId,
+                         providerId,
                          out TestHost host,
                          out RenderedComponent<App> component,
                          out MockHttpMessageHandler mockHttp);
@@ -187,12 +189,76 @@ namespace Aguacongas.TheIdServer.IntegrationTest.BlazorApp.Pages
             Assert.Equal(expected, buttons.Count);
         }
 
+        [Fact]
+        public async Task AddRemoveScope_should_not_throw()
+        {
+            var providerId = await CreateProvider();
+            CreateTestHost("Alice Smith",
+                         SharedConstants.WRITER,
+                         providerId,
+                         out TestHost host,
+                         out RenderedComponent<App> component,
+                         out MockHttpMessageHandler mockHttp);
+
+            WaitForLoaded(host, component);
+
+            var input = WaitForNode(host, component, "#scope input.new-claim");
+
+            await host.WaitForNextRenderAsync(() => input.ChangeAsync("name"));
+
+            var divs = component.FindAll("ul.list-inline div.input-group-append.select");
+
+            Assert.NotEmpty(divs);
+
+            await host.WaitForNextRenderAsync(() => divs.Last().ClickAsync());
+        }
+
+        [Fact]
+        public async Task RequiredHttpsMetadata_click_should_revalidate_MetadataAddress()
+        {
+            var providerId = GenerateId();
+            await DbActionAsync<ConfigurationDbContext>(async c =>
+            {
+                await c.Providers.AddAsync(new ExternalProvider
+                {
+                    Id = providerId,
+                    DisplayName = GenerateId(),
+                    SerializedOptions = "{\"RemoteSignOutPath\":\"/signin-wsfed\",\"AllowUnsolicitedLogins\":false,\"RequireHttpsMetadata\":false,\"UseTokenLifetime\":true,\"Wtrealm\":\"urn:aspnetcorerp\",\"SignOutWreply\":null,\"Wreply\":null,\"SkipUnrecognizedRequests\":false,\"RefreshOnIssuerKeyNotFound\":true,\"MetadataAddress\":\"http://localhost:5001/wsfederation\",\"SignOutScheme\":null,\"SaveTokens\":false}",
+                    SerializedHandlerType = "{\"Name\":\"Microsoft.AspNetCore.Authentication.WsFederation.WsFederationHandler\"}"
+                });
+
+                await c.SaveChangesAsync();
+            });
+
+
+            CreateTestHost("Alice Smith",
+                         SharedConstants.WRITER,
+                         providerId,
+                         out TestHost host,
+                         out RenderedComponent<App> component,
+                         out MockHttpMessageHandler mockHttp);
+
+            WaitForLoaded(host, component);
+
+            var input = WaitForNode(host, component, "#require-https input");
+
+            await host.WaitForNextRenderAsync(() => input.ChangeAsync(true));
+
+            Assert.NotNull(component.Find("li.validation-message"));
+
+            input = WaitForNode(host, component, "#require-https input");
+
+            await host.WaitForNextRenderAsync(() => input.ChangeAsync(false));
+
+            Assert.Null(component.Find("li.validation-message"));
+        }
+
         private async Task<string> CreateProvider()
         {
             var providerId = GenerateId();
             await DbActionAsync<ConfigurationDbContext>(async c =>
             {
-                await c.Providers.AddAsync(new SchemeDefinition
+                await c.Providers.AddAsync(new ExternalProvider
                 {
                     Id = providerId,
                     DisplayName = GenerateId(),

@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Admin.Services;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Admin.Services;
 using IdentityServer4.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -135,7 +137,7 @@ namespace Aguacongas.IdentityServer.Admin.Models
         /// The JWKS.
         /// </value>
         [JsonProperty("jwks")]
-        public IEnumerable<JsonWebKey> Jwks { get; set; }
+        public JsonWebKeys Jwks { get; set; }
 
         /// <summary>
         /// Gets or sets the registration token.
@@ -178,5 +180,20 @@ namespace Aguacongas.IdentityServer.Admin.Models
         /// The web
         /// </summary>
         Web
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class JsonWebKeys
+    {
+        /// <summary>
+        /// Gets or sets the keys.
+        /// </summary>
+        /// <value>
+        /// The keys.
+        /// </value>
+        [JsonProperty("keys")]
+        public IEnumerable<JsonWebKey> Keys { get; set; }
     }
 }

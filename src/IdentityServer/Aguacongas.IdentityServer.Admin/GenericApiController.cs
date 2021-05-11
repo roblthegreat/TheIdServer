@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Admin.Services;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Admin.Services;
 using Aguacongas.IdentityServer.Store;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +18,7 @@ namespace Aguacongas.IdentityServer.Admin
     /// <seealso cref="Controller" />
     [Produces(JsonFileOutputFormatter.SupportedContentType, "application/json")]
     [Route("[controller]")]
-    [GenericApiControllerNameConvention]
+    [GenericControllerNameConvention]
     public class GenericApiController<T> : Controller where T : class
     {
         private readonly IAdminStore<T> _store;

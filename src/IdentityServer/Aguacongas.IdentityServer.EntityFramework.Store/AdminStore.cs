@@ -1,17 +1,16 @@
-﻿using Aguacongas.IdentityServer.Store;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Store;
 using Aguacongas.IdentityServer.Store.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Aguacongas.IdentityServer.EntityFramework.Store
 {
-    [SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "No localization")]
     public class AdminStore<TEntity, TContext> : IAdminStore<TEntity> 
         where TEntity: class, IEntityId, new()
         where TContext: DbContext
@@ -29,28 +28,28 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store
         {
             var query = _context.Set<TEntity>().AsNoTracking();
             query = query.Expand(request?.Expand);
-            return query.FirstOrDefaultAsync(e => e.Id == id);
+            return query.FirstOrDefaultAsync(e => e.Id == id, cancellationToken: cancellationToken);
         }
 
         public async Task<PageResponse<TEntity>> GetAsync(PageRequest request, CancellationToken cancellationToken = default)
         {
             request = request ?? throw new ArgumentNullException(nameof(request));
+            request.OrderBy ??= nameof(IEntityId.Id);
+
             var query = _context.Set<TEntity>().AsNoTracking();
             var odataQuery = query.GetODataQuery(request);
 
-            var count = await odataQuery.CountAsync(cancellationToken).ConfigureAwait(false);
+            query = odataQuery.Inner as IQueryable<TEntity>;
 
-            IQueryable<TEntity> page = query;
-            if (request.Take.HasValue)
-            {
-                page = odataQuery.GetPage(request);
-            }
+            int? count = request.Take.HasValue || request.Skip.HasValue ? await query.CountAsync(cancellationToken).ConfigureAwait(false) : null;
 
-            var items = (await page.ToListAsync(cancellationToken).ConfigureAwait(false)) as IEnumerable<TEntity>;
+            var page = query.GetPage(request);
+
+            var items = await page.ToListAsync(cancellationToken).ConfigureAwait(false);
 
             return new PageResponse<TEntity>
             {
-                Count = count,
+                Count = count ?? items.Count,
                 Items = items
             };
         }
@@ -60,7 +59,7 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store
             var entity = await _context.Set<TEntity>().FindAsync(new[] { id }, cancellationToken).ConfigureAwait(false);
             if (entity == null)
             {
-                throw new DbUpdateException($"Entity type {typeof(TEntity).Name} at id {id} is not found");
+                return;
             }
             _context.Remove(entity);
             await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
@@ -73,6 +72,10 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store
             if (entity.Id == null)
             {
                 entity.Id = Guid.NewGuid().ToString();
+            }
+            if (entity is IAuditable auditable)
+            {
+                auditable.CreatedAt = DateTime.UtcNow;
             }
             await _context.AddAsync(entity, cancellationToken).ConfigureAwait(false);
             await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
@@ -90,9 +93,8 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store
         {
             entity = entity ?? throw new ArgumentNullException(nameof(entity));
             var storedEntity = await _context.Set<TEntity>()
-                .AsNoTracking()
                 .Where(e => e.Id == entity.Id)
-                .FirstOrDefaultAsync()
+                .FirstOrDefaultAsync(cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             if (storedEntity == null)
             {
@@ -100,11 +102,10 @@ namespace Aguacongas.IdentityServer.EntityFramework.Store
             }
             if (entity is IAuditable auditable)
             {
-                var storedAuditable = storedEntity as IAuditable;
-                auditable.CreatedAt = storedAuditable.CreatedAt;
-                auditable.ModifiedAt = storedAuditable.ModifiedAt;
+                auditable.ModifiedAt = DateTime.UtcNow;
             }
-            _context.Update(entity);
+
+            entity.Copy(storedEntity);
             await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             _logger.LogInformation("Entity {EntityId} updated", entity.Id, entity);
             return entity;

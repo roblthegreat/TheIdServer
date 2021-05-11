@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Store;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Store;
 using Aguacongas.TheIdServer.BlazorApp;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Testing;
@@ -22,6 +24,7 @@ namespace Aguacongas.TheIdServer.IntegrationTest.BlazorApp.Pages
         private readonly ApiFixture _fixture;
 
         public abstract string Entities { get; }
+
 
         protected EntitiesPageTestBase(ApiFixture fixture, ITestOutputHelper testOutputHelper)
         {

@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Admin.Models;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Admin.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Xunit;

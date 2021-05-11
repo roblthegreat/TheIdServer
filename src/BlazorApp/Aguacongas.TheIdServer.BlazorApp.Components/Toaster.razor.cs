@@ -1,4 +1,6 @@
-﻿using Aguacongas.TheIdServer.BlazorApp.Models;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.TheIdServer.BlazorApp.Models;
 using System.Collections.Generic;
 
 namespace Aguacongas.TheIdServer.BlazorApp.Components

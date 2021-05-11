@@ -1,0 +1,15 @@
+{
+  "ServerUri": "https://sonarcloud.io/",
+  "Organization": {
+    "Key": "aguacongas",
+    "Name": "Olivier Lefebvre"
+  },
+  "ProjectKey": "aguacongas_TheIdServer",
+  "ProjectName": "TheIdServer",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "AW8e9NVJZPoDbtkGSYCm",
+      "ProfileTimestamp": "2021-05-05T07:40:16Z"
+    }
+  }
+}

@@ -15,7 +15,7 @@ using IdentityServer4.Validation;
 using System.Collections.Generic;
 using System;
 
-namespace IdentityServer4.Quickstart.UI
+namespace IdentityServerHost.Quickstart.UI
 {
     /// <summary>
     /// This controller processes the consent UI
@@ -197,7 +197,7 @@ namespace IdentityServer4.Quickstart.UI
             vm.IdentityScopes = request.ValidatedResources.Resources.IdentityResources.Select(x => CreateScopeViewModel(x, vm.ScopesConsented.Contains(x.Name) || model == null)).ToArray();
 
             var apiScopes = new List<ScopeViewModel>();
-            foreach (var parsedScope in request.ValidatedResources.ParsedScopes)
+            foreach(var parsedScope in request.ValidatedResources.ParsedScopes)
             {
                 var apiScope = request.ValidatedResources.Resources.FindApiScope(parsedScope.ParsedName);
                 if (apiScope != null)

@@ -1,4 +1,6 @@
-﻿using Aguacongas.IdentityServer.Store.Entity;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Store.Entity;
 using Aguacongas.TheIdServer.BlazorApp.Infrastructure.Services;
 using Aguacongas.TheIdServer.BlazorApp.Models;
 using Aguacongas.TheIdServer.BlazorApp.Services;
@@ -24,8 +26,11 @@ namespace Aguacongas.TheIdServer.BlazorApp.Components
 
         protected override void OnInitialized()
         {
-            HandleModificationState.OnFilterChange += HandleModificationState_OnFilterChange;
-            HandleModificationState.OnStateChange += HandleModificationState_OnStateChange;
+            if (HandleModificationState != null)
+            {
+                HandleModificationState.OnFilterChange += HandleModificationState_OnFilterChange;
+                HandleModificationState.OnStateChange += HandleModificationState_OnStateChange;
+            }
             GridState.OnHeaderClicked += GridState_OnHeaderClicked;
             base.OnInitialized();
         }
@@ -47,7 +52,7 @@ namespace Aguacongas.TheIdServer.BlazorApp.Components
 
         private void HandleModificationState_OnStateChange(ModificationKind kind, object entity)
         {
-            if (entity is T)
+            if (entity is T && (kind == ModificationKind.Add || kind == ModificationKind.Delete))
             {
                 StateHasChanged();
             }

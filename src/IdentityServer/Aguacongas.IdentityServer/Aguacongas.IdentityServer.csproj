@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.1</TargetFramework>
+		<TargetFramework>net5.0</TargetFramework>
 		<Authors>Olivier Lefebvre</Authors>
 		<Copyright>Copyright (c) 2020 @Olivier Lefebvre</Copyright>
 		<PackageLicense>https://raw.githubusercontent.com/Aguafrommars/TheIdServer/master/LICENSE</PackageLicense>
@@ -11,6 +11,7 @@
 		<PackageTags>theidserver;identityserver4</PackageTags>
 		<Description>TheIdServer IndentityServer4 abstraction and extensions.</Description>
 		<DebugType>Full</DebugType>
+		<PackageIcon>package-icon.png</PackageIcon>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -22,21 +23,30 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Aguacongas.AspNetCore.Authentication" Version="3.1.2" />
-		<PackageReference Include="Community.OData.Linq" Version="1.4.2" />
-		<PackageReference Include="IdentityServer4.EntityFramework.Storage" Version="4.0.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="3.1.6" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="3.1.6" />
-		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.6" />
-		<PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.6" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
+		<AdditionalFiles Include="..\..\..\.sonarlint\aguacongas_theidserver\CSharp\SonarLint.xml" Link="SonarLint.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Community.OData.Linq" Version="1.4.2" />
+		<PackageReference Include="IdentityServer4" Version="4.1.2" />
+		<PackageReference Include="IdentityServer4.EntityFramework.Storage" Version="4.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="5.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.5" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Aguacongas.TheIdServer.Authentication\Aguacongas.TheIdServer.Authentication.csproj" />
+		<ProjectReference Include="..\..\Aguacongas.TheIdServer.Identity\Aguacongas.TheIdServer.Identity.csproj" />
 		<ProjectReference Include="..\Aguacongas.IdentityServer.Store\Aguacongas.IdentityServer.Store.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="package-icon.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 </Project>

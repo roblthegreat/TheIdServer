@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -147,6 +149,22 @@ namespace Aguacongas.IdentityServer.Store.Entity
         /// The user claims.
         /// </value>
         public virtual ICollection<UserClaim> UserClaims { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user logins.
+        /// </summary>
+        /// <value>
+        /// The user logins.
+        /// </value>
+        public virtual ICollection<UserLogin> UserLogins { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user tokens.
+        /// </summary>
+        /// <value>
+        /// The user tokens.
+        /// </value>
+        public virtual ICollection<UserToken> UserTokens { get; set; }
 
         /// <summary>
         /// Gets or sets the user roles.

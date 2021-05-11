@@ -1,4 +1,6 @@
-﻿using Aguacongas.AspNetCore.Authentication;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.AspNetCore.Authentication;
 using Aguacongas.AspNetCore.Authentication.TestBase;
 using Aguacongas.IdentityServer.Store;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,7 +37,7 @@ namespace Aguacongas.TheIdServer.Authentication.IntegrationTest
                     new Claim("role", SharedConstants.READER)
                 });
 
-            return builder.AddTheIdServerHttpStore();
+            return builder.AddTheIdServerStore();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Aguacongas.IdentityServer.Admin.Models
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+namespace Aguacongas.IdentityServer.Admin.Models
 {
     /// <summary>
     /// Define a claims provider setup class options

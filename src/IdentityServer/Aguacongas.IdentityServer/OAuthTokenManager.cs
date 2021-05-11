@@ -1,4 +1,6 @@
-﻿using IdentityModel.Client;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using IdentityModel.Client;
 using Microsoft.Extensions.Options;
 using System;
 using System.Net.Http;
@@ -104,6 +106,10 @@ namespace Aguacongas.IdentityServer
 
             if (discoveryResponse.Error != null)
             {
+                if (discoveryResponse.Exception != null)
+                {
+                    throw discoveryResponse.Exception;
+                }
                 throw new InvalidOperationException(discoveryResponse.Error);
             }
 

@@ -1,4 +1,7 @@
-﻿using Aguacongas.IdentityServer.Admin.Models;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Admin.Models;
+using IdentityServer4.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
@@ -18,7 +21,12 @@ namespace Aguacongas.TheIdServer.IntegrationTest.Controlers
         [Fact]
         public async Task CreateAsync_should_register_a_new_client()
         {
-            var sut = TestUtils.CreateTestServer();
+            var configuration = new Dictionary<string, string>
+            {
+                ["Seed"] = "false"
+            };
+            var sut = TestUtils.CreateTestServer(configurationOverrides: configuration);
+
             sut.Services.GetRequiredService<TestUserService>()
                     .SetTestUser(true, new Claim[] { new Claim("role", "Is4-Writer") });
 
@@ -51,6 +59,20 @@ namespace Aguacongas.TheIdServer.IntegrationTest.Controlers
                 Assert.NotNull(result.RegistrationUri);
             }
 
+            registration.Jwks = new JsonWebKeys
+            {
+                Keys = new[]
+                {
+                    new JsonWebKey
+                    {
+                        kty = "RSA",
+                        e = "AQAB",
+                        use = "sig",
+                        alg = "RS256",
+                        n = "qBulUDaYV027shwCq82LKIevXdQL2pCwXktQgf2TT3c496pxGdRuxcN_MHGKWNOGQsDLuAVk6NjxYF95obDUFrDiugMuXrvptPrTO8dzTX83k_6ngtjOtx2UrTk_7f0EYNrusykrsB-cOvCMREsfktlsavvMKBGrzpxaHlRxcSsMxzB0dddDSlH8mxlzOGcbBuvZnbNg0EUuQC4jvM9Gy6gUEcoU0S19XnUcgwLGLPfIX2dMO4FxTAsaaTYT7msxGMBNIVUTVnL0HctYr0YVYu0hD9rePnvxJ_-OwOdxIETQlR9vp61xFr4juzyyMWTrjCACxxLm-CyEQGjwx2YZaw"
+                    }
+                }
+            };
             registration.RedirectUris = new List<string>
             {
                 "https://localhost"

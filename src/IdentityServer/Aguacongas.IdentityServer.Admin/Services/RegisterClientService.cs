@@ -1,13 +1,17 @@
-﻿using Aguacongas.IdentityServer.Admin.Models;
+﻿// Project: Aguafrommars/TheIdServer
+// Copyright (c) 2021 @Olivier Lefebvre
+using Aguacongas.IdentityServer.Admin.Models;
 using Aguacongas.IdentityServer.Admin.Options;
 using Aguacongas.IdentityServer.Store;
 using Aguacongas.IdentityServer.Store.Entity;
 using IdentityServer4.ResponseHandling;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using SendGrid.Helpers.Errors.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,7 +31,8 @@ namespace Aguacongas.IdentityServer.Admin.Services
         private readonly IAdminStore<ClientProperty> _clientPropertyStore;
         private readonly IAdminStore<ClientGrantType> _clientGrantTypeStore;
         private readonly IDiscoveryResponseGenerator _discoveryResponseGenerator;
-        private readonly IdentityServer4.Models.Client _defaultValues = new IdentityServer4.Models.Client();
+        private readonly IdentityServer4.Models.Client _defaultValues = new();
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterClientService" /> class.
@@ -53,6 +58,7 @@ namespace Aguacongas.IdentityServer.Admin.Services
         /// clientGrantTypeStore
         /// or
         /// discoveryResponseGenerator</exception>
+        [SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "1 more is ok")]
         public RegisterClientService(IAdminStore<Client> clientStore,
             IAdminStore<ClientUri> clientUriStore,
             IAdminStore<ClientLocalizedResource> clientResourceStore,
@@ -86,12 +92,30 @@ namespace Aguacongas.IdentityServer.Admin.Services
             ValidateCaller(registration, httpContext);
             Validate(registration, discovery);
 
-            var secret = Guid.NewGuid().ToString();
             var clientName = registration.ClientNames?.FirstOrDefault(n => n.Culture == null)?.Value ??
                     registration.ClientNames?.FirstOrDefault()?.Value ?? Guid.NewGuid().ToString();
             var existing = await _clientStore.GetAsync(clientName, null).ConfigureAwait(false);
             registration.Id = existing != null ? Guid.NewGuid().ToString() : clientName;
             registration.Id = registration.Id.Contains(' ') ? Guid.NewGuid().ToString() : registration.Id;
+            var secret = Guid.NewGuid().ToString();
+            
+            var serializerSettings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            };
+            var jwkKeys = registration.Jwks?.Keys;
+            var sercretList = jwkKeys != null ? jwkKeys.Select(k => new ClientSecret
+            {
+                Id = Guid.NewGuid().ToString(),
+                Type = IdentityServer4.IdentityServerConstants.SecretTypes.JsonWebKey,
+                Value = JsonConvert.SerializeObject(k, serializerSettings)
+            }).ToList() : new List<ClientSecret>();
+            sercretList.Add(new ClientSecret
+            {
+                Id = Guid.NewGuid().ToString(),
+                Type = IdentityServer4.IdentityServerConstants.SecretTypes.SharedSecret,
+                Value = secret
+            });
 
             var client = new Client
             {
@@ -141,15 +165,7 @@ namespace Aguacongas.IdentityServer.Admin.Services
                 BackChannelLogoutUri = _defaultValues.BackChannelLogoutUri,
                 ClientClaimsPrefix = _defaultValues.ClientClaimsPrefix,
                 ClientName = clientName,
-                ClientSecrets = new List<ClientSecret>
-                {
-                    new ClientSecret
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Type = "SharedSecret",
-                        Value = IdentityServer4.Models.HashExtensions.Sha256(secret)
-                    }
-                },
+                ClientSecrets = sercretList,
                 ClientUri = registration.ClientUris?.FirstOrDefault(u => u.Culture == null)?.Value ?? registration.ClientUris?.FirstOrDefault()?.Value,
                 ConsentLifetime = _defaultValues.ConsentLifetime,
                 Description = _defaultValues.Description,
@@ -173,7 +189,7 @@ namespace Aguacongas.IdentityServer.Admin.Services
                 }).ToList(),
                 RefreshTokenExpiration = (int)_defaultValues.RefreshTokenExpiration,
                 RefreshTokenUsage = (int)_defaultValues.RefreshTokenUsage,
-                RequireClientSecret = secret != null,
+                RequireClientSecret = false,
                 RequireConsent = _defaultValues.RequireConsent,
                 RequirePkce = false,
                 Resources = registration.ClientNames.Where(n => n.Culture != null)
@@ -247,7 +263,7 @@ namespace Aguacongas.IdentityServer.Admin.Services
             registration.RegistrationUri = $"{discovery["registration_endpoint"]}/{client.Id}";
             registration.JwksUri = discovery["jwks_uri"].ToString();
             registration.ClientSecret = secret;
-            registration.ClientSecretExpireAt = secret != null ? (int?)0 : null;
+            registration.ClientSecretExpireAt = 0 ;
 
             return registration;
         }
@@ -637,38 +653,43 @@ namespace Aguacongas.IdentityServer.Admin.Services
             }
         }
 
-        private void ValidateResponseType(IEnumerable<string> grantTypes, IEnumerable<string> responseTypes, IEnumerable<string> responseTypesSupported)
+        private static void ValidateResponseType(IEnumerable<string> grantTypes, IEnumerable<string> responseTypes, IEnumerable<string> responseTypesSupported)
         {
             foreach (var responseType in responseTypes)
             {
                 var responseTypeSegmentList = responseType.Split(' ');
                 foreach (var type in responseTypeSegmentList)
                 {
-                    if (!responseTypesSupported.Any(t => t.Split(' ').Length == responseTypeSegmentList.Length && t.Contains(type)))
-                    {
-                        throw new RegistrationException("invalid_response_type", $"ResponseType '{responseType}' is not supported.");
-                    }
-                    switch (type)
-                    {
-                        case "code":
-                            if (!grantTypes.Any(g => g == "authorization_code"))
-                            {
-                                throw new RegistrationException("invalid_response_type", $"No GrantType 'authorization_code' for ResponseType '{responseType}' found in grant_types.");
-                            }
-                            break;
-                        case "token":
-                        case "id_token":
-                            if (!grantTypes.Any(g => g == "implicit"))
-                            {
-                                throw new RegistrationException("invalid_response_type", $"No GrantType 'implicit' for ResponseType '{responseType}' found in grant_types.");
-                            }
-                            break;
-                    }
+                    ValideResponseType(grantTypes, responseTypesSupported, responseType, responseTypeSegmentList, type);
                 }
             }
         }
 
-        private void ValidateGrantType(IEnumerable<string> grantTypes, IEnumerable<string> grantTypesSupported)
+        private static void ValideResponseType(IEnumerable<string> grantTypes, IEnumerable<string> responseTypesSupported, string responseType, string[] responseTypeSegmentList, string type)
+        {
+            if (!responseTypesSupported.Any(t => t.Split(' ').Length == responseTypeSegmentList.Length && t.Contains(type)))
+            {
+                throw new RegistrationException("invalid_response_type", $"ResponseType '{responseType}' is not supported.");
+            }
+            switch (type)
+            {
+                case "code":
+                    if (!grantTypes.Any(g => g == "authorization_code"))
+                    {
+                        throw new RegistrationException("invalid_response_type", $"No GrantType 'authorization_code' for ResponseType '{responseType}' found in grant_types.");
+                    }
+                    break;
+                case "token":
+                case "id_token":
+                    if (!grantTypes.Any(g => g == "implicit"))
+                    {
+                        throw new RegistrationException("invalid_response_type", $"No GrantType 'implicit' for ResponseType '{responseType}' found in grant_types.");
+                    }
+                    break;
+            }
+        }
+
+        private static void ValidateGrantType(IEnumerable<string> grantTypes, IEnumerable<string> grantTypesSupported)
         {
             foreach (var grantType in grantTypes)
             {
@@ -679,7 +700,7 @@ namespace Aguacongas.IdentityServer.Admin.Services
             }
         }
 
-        private void ValidateUris(IEnumerable<Uri> redirectUriList, IEnumerable<LocalizableProperty> localizableProperties, string errorCode, string uriName)
+        private static void ValidateUris(IEnumerable<Uri> redirectUriList, IEnumerable<LocalizableProperty> localizableProperties, string errorCode, string uriName)
         {
             if (localizableProperties == null)
             {
